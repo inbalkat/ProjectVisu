@@ -359,7 +359,7 @@ supermarket_html = """
         border: 1px solid #ccc;
         border-radius: 10px;
         white-space: nowrap;
-        max-width: 150px;
+        width: 120px;
         overflow: hidden;
         text-overflow: ellipsis;
     }
