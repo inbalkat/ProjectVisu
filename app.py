@@ -9,12 +9,21 @@ data = [
     {"product": "eggs", "year": 2015, "yearly average price": 23.233333},
     {"product": "banana", "year": 2015, "yearly average price": 3.647727},
     {"product": "onion", "year": 2015, "yearly average price": 3.413717},
-    # ... (Add all rows similarly)
+    {"product": "avocado", "year": 2016, "yearly average price": 7.123456},
+    {"product": "rice", "year": 2016, "yearly average price": 9.789012},
+    {"product": "eggs", "year": 2016, "yearly average price": 23.654321},
+    {"product": "banana", "year": 2016, "yearly average price": 3.876543},
+    {"product": "onion", "year": 2016, "yearly average price": 3.543210},
+    {"product": "avocado", "year": 2017, "yearly average price": 7.234567},
+    {"product": "rice", "year": 2017, "yearly average price": 9.890123},
+    {"product": "eggs", "year": 2017, "yearly average price": 23.765432},
+    {"product": "banana", "year": 2017, "yearly average price": 4.098765},
+    {"product": "onion", "year": 2017, "yearly average price": 3.654321},
     {"product": "canola oil", "year": 2024, "yearly average price": 12.346667},
     {"product": "strawberry", "year": 2024, "yearly average price": 33.180476},
     {"product": "corn", "year": 2024, "yearly average price": 8.526996},
     {"product": "apple", "year": 2024, "yearly average price": 8.494729},
-    {"product": "potato", "year": 2024, "yearly average price": 5.034356},
+    {"product": "potato", "year": 2024, "yearly average price": 5.034356}
 ]
 
 # Convert to DataFrame
