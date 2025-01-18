@@ -108,3 +108,38 @@ ax.grid(True)
 
 # Display the plot in Streamlit
 st.pyplot(fig)
+
+# Basket animation section
+st.subheader("Interactive Basket")
+
+# Define item icons
+item_icons = {
+    "avocado": "🥑",
+    "rice": "🍚",
+    "eggs": "🥚",
+    "banana": "🍌",
+    "onion": "🧅",
+    "apple": "🍎",
+    "potato": "🥔",
+    "canola oil": "🛢️",
+    "strawberry": "🍓",
+    "corn": "🌽",
+}
+
+# Initialize basket state
+if "basket" not in st.session_state:
+    st.session_state.basket = []
+
+# Add item selection buttons
+st.write("Click on an item to add it to the basket:")
+for product, icon in item_icons.items():
+    if st.button(f"Add {product.capitalize()} {icon}"):
+        st.session_state.basket.append(icon)
+
+# Display basket with animation
+basket_html = f"""
+<div style="text-align: center;">
+    <div style="font-size: 60px;">🧺 {' '.join(st.session_state.basket)}</div>
+</div>
+"""
+st.markdown(basket_html, unsafe_allow_html=True)
