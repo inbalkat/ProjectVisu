@@ -80,7 +80,12 @@ st.markdown(supermarket_html, unsafe_allow_html=True)
 
 for product, icon in item_icons.items():
     if st.button(icon):
-        if product not in st.session_state.selected_products:
+        if product in st.session_state.selected_products:
+            # Remove the product if already selected
+            st.session_state.selected_products.remove(product)
+            st.session_state.basket.remove(icon)
+        else:
+            # Add the product if not already selected
             st.session_state.selected_products.append(product)
             st.session_state.basket.append(icon)
 
