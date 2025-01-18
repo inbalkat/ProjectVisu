@@ -346,7 +346,6 @@ if "selected_products" not in st.session_state:
     st.session_state.selected_products = []
 
 # Display the supermarket layout
-st.subheader("Supermarket")
 supermarket_html = """
 <style>
     .item {
@@ -436,7 +435,7 @@ ax.plot(
 # Customize the plot
 ax.set_xlabel("Year")
 ax.set_ylabel("Total Cost (₪)")
-ax.set_title("Yearly Total Cost of Selected Products")
+ax.set_title("Total Cost of Selected Products Over Time")
 ax.set_xticks(range(2015, 2025))  # Ensure all years are shown on the x-axis
 ax.legend()
 ax.grid(True)
