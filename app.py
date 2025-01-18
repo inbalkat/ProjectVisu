@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Load the dataset
-file_path = './data/products.xlsx'
+file_path = './products.xlsx'
 products_df = pd.read_excel(file_path)
 
 # Streamlit app title
