@@ -107,7 +107,3 @@ ax.grid(True)
 
 # Display the plot in Streamlit
 st.pyplot(fig)
-
-# Display the filtered data
-st.subheader("Filtered Data")
-st.dataframe(filtered_df)
