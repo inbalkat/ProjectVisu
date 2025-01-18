@@ -78,16 +78,20 @@ supermarket_html = """
 
 st.markdown(supermarket_html, unsafe_allow_html=True)
 
+# Handle toggling items in the basket
 for product, icon in item_icons.items():
-    if st.button(icon):
-        if product in st.session_state.selected_products:
-            # Remove the product if already selected
-            st.session_state.selected_products.remove(product)
-            st.session_state.basket.remove(icon)
-        else:
-            # Add the product if not already selected
+    if f"toggle_{product}" not in st.session_state:
+        st.session_state[f"toggle_{product}"] = False
+
+    col = st.columns(1)[0]
+    if col.button(icon):
+        st.session_state[f"toggle_{product}"] = not st.session_state[f"toggle_{product}"]
+        if st.session_state[f"toggle_{product}"]:
             st.session_state.selected_products.append(product)
             st.session_state.basket.append(icon)
+        else:
+            st.session_state.selected_products.remove(product)
+            st.session_state.basket.remove(icon)
 
 # Display the basket
 st.markdown("<div class='basket'>🧺 " + " ".join(st.session_state.basket) + "</div>", unsafe_allow_html=True)
