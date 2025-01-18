@@ -1,3 +1,4 @@
+
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -9,16 +10,40 @@ data = [
     {"product": "eggs", "year": 2015, "yearly average price": 23.233333},
     {"product": "banana", "year": 2015, "yearly average price": 3.647727},
     {"product": "onion", "year": 2015, "yearly average price": 3.413717},
+    
     {"product": "avocado", "year": 2016, "yearly average price": 7.123456},
     {"product": "rice", "year": 2016, "yearly average price": 9.789012},
     {"product": "eggs", "year": 2016, "yearly average price": 23.654321},
     {"product": "banana", "year": 2016, "yearly average price": 3.876543},
     {"product": "onion", "year": 2016, "yearly average price": 3.543210},
+    
     {"product": "avocado", "year": 2017, "yearly average price": 7.234567},
     {"product": "rice", "year": 2017, "yearly average price": 9.890123},
     {"product": "eggs", "year": 2017, "yearly average price": 23.765432},
     {"product": "banana", "year": 2017, "yearly average price": 4.098765},
     {"product": "onion", "year": 2017, "yearly average price": 3.654321},
+
+    {"product": "avocado", "year": 2018, "yearly average price": 12.231},
+    {"product": "rice", "year": 2018, "yearly average price": 9.928},
+
+    {"product": "avocado", "year": 2019, "yearly average price": 11.797},
+    {"product": "rice", "year": 2019, "yearly average price": 10.119},
+
+    {"product": "avocado", "year": 2020, "yearly average price": 13.824},
+    {"product": "rice", "year": 2020, "yearly average price": 10.224},
+
+    {"product": "avocado", "year": 2021, "yearly average price": 10.747},
+    {"product": "rice", "year": 2021, "yearly average price": 10.515},
+
+    {"product": "avocado", "year": 2022, "yearly average price": 8.332},
+    {"product": "rice", "year": 2022, "yearly average price": 11.038},
+
+    {"product": "avocado", "year": 2023, "yearly average price": 11.419},
+    {"product": "rice", "year": 2023, "yearly average price": 11.178},
+    
+    {"product": "avocado", "year": 2024, "yearly average price": 10.420},
+    {"product": "rice", "year": 2024, "yearly average price": 11.272},
+
     {"product": "canola oil", "year": 2024, "yearly average price": 12.346667},
     {"product": "strawberry", "year": 2024, "yearly average price": 33.180476},
     {"product": "corn", "year": 2024, "yearly average price": 8.526996},
@@ -77,44 +102,9 @@ ax.plot(
 ax.set_xlabel("Year")
 ax.set_ylabel("Total Cost (₪)")
 ax.set_title("Yearly Total Cost of Selected Products")
-ax.set_xticks(range(2015, 2025))  # Ensure all years are shown on the x-axis
+ax.set_xticks(range(2015,2025))
 ax.legend()
 ax.grid(True)
 
 # Display the plot in Streamlit
 st.pyplot(fig)
-
-# Basket animation section
-st.subheader("Interactive Basket")
-
-# Define item icons
-item_icons = {
-    "avocado": "🥑",
-    "rice": "🍚",
-    "eggs": "🥚",
-    "banana": "🍌",
-    "onion": "🧅",
-    "apple": "🍎",
-    "potato": "🥔",
-    "canola oil": "🛢️",
-    "strawberry": "🍓",
-    "corn": "🌽",
-}
-
-# Initialize basket state
-if "basket" not in st.session_state:
-    st.session_state.basket = []
-
-# Add item selection buttons
-st.write("Click on an item to add it to the basket:")
-for product, icon in item_icons.items():
-    if st.button(f"Add {product.capitalize()} {icon}"):
-        st.session_state.basket.append(icon)
-
-# Display basket with animation
-basket_html = f"""
-<div style="text-align: center;">
-    <div style="font-size: 60px;">🧺 {' '.join(st.session_state.basket)}</div>
-</div>
-"""
-st.markdown(basket_html, unsafe_allow_html=True)
