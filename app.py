@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Load the dataset
-file_path = '/mnt/data/products.xlsx'
+file_path = './data/products.xlsx'
 products_df = pd.read_excel(file_path)
 
 # Streamlit app title
@@ -18,7 +18,7 @@ selected_products = st.multiselect(
 
 # Slider for year range selection
 year_range = st.slider(
-    "Select the year range::",
+    "Select the year range:",
     min_value=int(products_df['year'].min()),
     max_value=int(products_df['year'].max()),
     value=(2015, 2024),
