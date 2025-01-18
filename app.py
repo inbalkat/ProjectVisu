@@ -350,17 +350,20 @@ st.subheader("Supermarket")
 supermarket_html = """
 <style>
     .item {
-        display: inline-block;
+        display: flex;
         margin: 10px;
         cursor: pointer;
         font-size: 20px;
         text-align: center;
+        justify-content: center;
+        align-items: center;
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 10px;
-        white-space: nowrap;
-        width: auto;
-        min-width: 120px;
+        white-space: nowrap; /* Prevent line breaks */
+        max-width: 180px; /* Set a maximum width */
+        overflow: hidden; /* Hide overflow */
+        text-overflow: ellipsis; /* Show '...' if text is too long */
         height: 50px;
     }
     .item:hover {
