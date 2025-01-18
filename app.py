@@ -2,9 +2,23 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Load the dataset
-file_path = './products.xlsx'
-products_df = pd.read_excel(file_path)
+# Hardcoded data from the Excel file
+data = [
+    {"product": "avocado", "year": 2015, "yearly average price": 6.729932},
+    {"product": "rice", "year": 2015, "yearly average price": 9.595833},
+    {"product": "eggs", "year": 2015, "yearly average price": 23.233333},
+    {"product": "banana", "year": 2015, "yearly average price": 3.647727},
+    {"product": "onion", "year": 2015, "yearly average price": 3.413717},
+    # ... (Add all rows similarly)
+    {"product": "canola oil", "year": 2024, "yearly average price": 12.346667},
+    {"product": "strawberry", "year": 2024, "yearly average price": 33.180476},
+    {"product": "corn", "year": 2024, "yearly average price": 8.526996},
+    {"product": "apple", "year": 2024, "yearly average price": 8.494729},
+    {"product": "potato", "year": 2024, "yearly average price": 5.034356},
+]
+
+# Convert to DataFrame
+products_df = pd.DataFrame(data)
 
 # Streamlit app title
 st.title("Supermarket Product Prices Over Time")
