@@ -18,7 +18,7 @@ selected_products = st.multiselect(
 
 # Slider for year range selection
 year_range = st.slider(
-    "Select the year range:",
+    "Select the year range::",
     min_value=int(products_df['year'].min()),
     max_value=int(products_df['year'].max()),
     value=(2015, 2024),
