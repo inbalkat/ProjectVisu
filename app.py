@@ -358,6 +358,7 @@ supermarket_html = """
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 10px;
+        white-space: nowrap;
     }
     .item:hover {
         transform: scale(1.2);
