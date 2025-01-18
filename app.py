@@ -359,6 +359,9 @@ supermarket_html = """
         border: 1px solid #ccc;
         border-radius: 10px;
         white-space: nowrap;
+        max-width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     .item:hover {
         transform: scale(1.2);
