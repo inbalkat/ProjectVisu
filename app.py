@@ -101,6 +101,7 @@ ax.plot(
 ax.set_xlabel("Year")
 ax.set_ylabel("Total Cost (₪)")
 ax.set_title("Yearly Total Cost of Selected Products")
+ax.set_xticks(range(2015,2025))
 ax.legend()
 ax.grid(True)
 
