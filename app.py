@@ -75,16 +75,14 @@ supermarket_html = """
     .cart {
         font-size: 100px;
         margin-top: 20px;
-        text-align: center;
+        text-align: left;
         position: relative;
+        display: flex;
+        align-items: center;
     }
     .cart-items {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
         font-size: 40px;
-        text-align: center;
+        margin-left: 20px;
     }
 </style>
 """
@@ -104,7 +102,8 @@ for index, (product, icon) in enumerate(item_icons.items()):
 
 # Display the cart
 cart_html = f"""
-<div class='cart'>🛒
+<div class='cart'>
+    🛒
     <div class='cart-items'>{' '.join(st.session_state.basket)}</div>
 </div>
 """
@@ -129,6 +128,8 @@ ax.plot(
     total_prices['year'],
     total_prices['yearly average price'],
     marker='o',
+    color='black',
+    linewidth=2,
     label="Total Basket Cost"
 )
 
