@@ -61,16 +61,29 @@ supermarket_html = """
         display: inline-block;
         margin: 10px;
         cursor: pointer;
-        font-size: 40px;
+        font-size: 20px;
         text-align: center;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
     }
     .item:hover {
         transform: scale(1.2);
         transition: transform 0.2s;
+        background-color: #f0f0f0;
     }
-    .basket {
-        font-size: 80px;
+    .cart {
+        font-size: 100px;
         margin-top: 20px;
+        text-align: center;
+        position: relative;
+    }
+    .cart-items {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 40px;
         text-align: center;
     }
 </style>
@@ -78,23 +91,24 @@ supermarket_html = """
 
 st.markdown(supermarket_html, unsafe_allow_html=True)
 
-# Handle toggling items in the basket
-for product, icon in item_icons.items():
-    if f"toggle_{product}" not in st.session_state:
-        st.session_state[f"toggle_{product}"] = False
+columns = st.columns(5)
+for index, (product, icon) in enumerate(item_icons.items()):
+    with columns[index % 5]:
+        if st.button(f"{icon} {product.capitalize()}"):
+            if product in st.session_state.selected_products:
+                st.session_state.selected_products.remove(product)
+                st.session_state.basket.remove(icon)
+            else:
+                st.session_state.selected_products.append(product)
+                st.session_state.basket.append(icon)
 
-    col = st.columns(1)[0]
-    if col.button(icon):
-        st.session_state[f"toggle_{product}"] = not st.session_state[f"toggle_{product}"]
-        if st.session_state[f"toggle_{product}"]:
-            st.session_state.selected_products.append(product)
-            st.session_state.basket.append(icon)
-        else:
-            st.session_state.selected_products.remove(product)
-            st.session_state.basket.remove(icon)
-
-# Display the basket
-st.markdown("<div class='basket'>🧺 " + " ".join(st.session_state.basket) + "</div>", unsafe_allow_html=True)
+# Display the cart
+cart_html = f"""
+<div class='cart'>🛒
+    <div class='cart-items'>{' '.join(st.session_state.basket)}</div>
+</div>
+"""
+st.markdown(cart_html, unsafe_allow_html=True)
 
 # Filter the dataset based on selected products
 filtered_df = products_df[products_df['product'].isin(st.session_state.selected_products)]
