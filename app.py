@@ -75,14 +75,15 @@ supermarket_html = """
     .cart {
         font-size: 100px;
         margin-top: 20px;
-        text-align: left;
+        text-align: right;
         position: relative;
         display: flex;
         align-items: center;
+        justify-content: flex-end;
     }
     .cart-items {
         font-size: 40px;
-        margin-left: 20px;
+        margin-right: 20px;
     }
 </style>
 """
@@ -103,8 +104,8 @@ for index, (product, icon) in enumerate(item_icons.items()):
 # Display the cart
 cart_html = f"""
 <div class='cart'>
-    🛒
     <div class='cart-items'>{' '.join(st.session_state.basket)}</div>
+    🛒
 </div>
 """
 st.markdown(cart_html, unsafe_allow_html=True)
