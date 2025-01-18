@@ -346,7 +346,7 @@ if "selected_products" not in st.session_state:
     st.session_state.selected_products = []
 
 # Display the supermarket layout
-st.subheader("Supermarket1")
+st.subheader("Supermarket")
 supermarket_html = """
 <style>
     .item {
@@ -359,9 +359,8 @@ supermarket_html = """
         border: 1px solid #ccc;
         border-radius: 10px;
         white-space: nowrap;
-        width: 200px;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        width: auto;
+        min-width: 120px;
     }
     .item:hover {
         transform: scale(1.2);
