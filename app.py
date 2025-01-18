@@ -361,6 +361,7 @@ supermarket_html = """
         white-space: nowrap;
         width: auto;
         min-width: 120px;
+        height: 50px;
     }
     .item:hover {
         transform: scale(1.2);
