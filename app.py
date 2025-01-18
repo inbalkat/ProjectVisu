@@ -2,62 +2,64 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# יצירת נתונים לדוגמה
-data = {
-    "Year": [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023],
-    "Income": [4650, 4825, 5000, 5300, 5300, 5300, 5300, 5300, 5571.75],
-    "Rent": [2000, 2100, 2200, 2300, 2400, 2500, 2600, 2700, 2800],
-    "Products": [1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800],
-}
+# Load the dataset
+file_path = '/mnt/data/products.xlsx'
+products_df = pd.read_excel(file_path)
 
-# המרת הנתונים ל-DataFrame
-df = pd.DataFrame(data)
+# Streamlit app title
+st.title("Supermarket Product Prices Over Time")
 
-# כותרת לאפליקציה
-st.title("היסטוגרמה של הכנסות, הוצאות וחיסכון")
+# Sidebar for product selection
+selected_products = st.multiselect(
+    "Select products to include in the basket:",
+    options=products_df['product'].unique(),
+    default=[]
+)
 
-# בחירת טווח שנים להצגה
+# Slider for year range selection
 year_range = st.slider(
-    "בחר טווח שנים להצגה:",
-    min_value=int(df["Year"].min()),
-    max_value=int(df["Year"].max()),
-    value=(2015, 2023),
+    "Select the year range:",
+    min_value=int(products_df['year'].min()),
+    max_value=int(products_df['year'].max()),
+    value=(2015, 2024),
 )
 
-# סינון הנתונים לפי טווח השנים
-filtered_df = df[(df["Year"] >= year_range[0]) & (df["Year"] <= year_range[1])]
+# Filter the dataset based on user selection
+filtered_df = products_df[
+    (products_df['product'].isin(selected_products)) &
+    (products_df['year'] >= year_range[0]) &
+    (products_df['year'] <= year_range[1])
+]
 
-# יצירת גרף היסטוגרמה
+# Calculate the yearly total for the selected products
+if not filtered_df.empty:
+    total_prices = (
+        filtered_df.groupby('year')['yearly average price']
+        .sum()
+        .reset_index()
+    )
+else:
+    total_prices = pd.DataFrame(columns=['year', 'yearly average price'])
+
+# Create the plot
 fig, ax = plt.subplots(figsize=(10, 6))
-
-# שכבת הכנסות
-ax.bar(
-    filtered_df["Year"],
-    filtered_df["Income"],
-    label="Income",
-    color="skyblue",
-    edgecolor="black",
+ax.plot(
+    total_prices['year'],
+    total_prices['yearly average price'],
+    marker='o',
+    label="Total Basket Cost"
 )
 
-# שכבת הוצאות (שכירות + מוצרים)
-ax.bar(
-    filtered_df["Year"],
-    filtered_df["Rent"] + filtered_df["Products"],
-    label="Expenses (Rent + Products)",
-    color="orange",
-    edgecolor="black",
-    alpha=0.7,
-)
-
-# הוספת תוויות
+# Customize the plot
 ax.set_xlabel("Year")
-ax.set_ylabel("Amount (₪)")
-ax.set_title("Income vs. Expenses Histogram")
+ax.set_ylabel("Total Cost (₪)")
+ax.set_title("Yearly Total Cost of Selected Products")
 ax.legend()
+ax.grid(True)
 
-# הצגת הגרף ב-Streamlit
+# Display the plot in Streamlit
 st.pyplot(fig)
 
-# הצגת טבלה
-st.subheader("נתונים מסוננים")
+# Display the filtered data
+st.subheader("Filtered Data")
 st.dataframe(filtered_df)
