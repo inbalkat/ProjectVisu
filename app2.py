@@ -27,11 +27,10 @@ def prepare_data(real_df, salary_df, value_column):
     real_prices = real_prices.reset_index()
     return real_prices
 
-# Visualization function with filled area
-def plot_data_filled(title, real_prices):
-    fig, ax = plt.subplots(figsize=(10, 6))
+# Visualization function
+def plot_data(title, real_prices):
+    fig, ax = plt.subplots(figsize=(6, 4))
     ax.plot(real_prices["year"], real_prices.iloc[:, 1], marker='o', label="Price as % of Salary", color='blue')
-    ax.fill_between(real_prices["year"], real_prices.iloc[:, 1], color='blue', alpha=0.2)  # Fill below the line
     ax.set_title(title)
     ax.set_xlabel("Year")
     ax.set_ylabel("Ratio to Salary")
@@ -44,28 +43,21 @@ def plot_data_filled(title, real_prices):
 st.title("Price Trends vs. Salaries")
 
 # Multi-select for categories
-categories = st.sidebar.multiselect(
-    "Choose categories to display:",
-    ["Fuel", "Basic Basket", "Rent"],
-    default=["Fuel"]  # Default to showing only "Fuel"
-)
+categories = st.multiselect("Choose categories to display:", ["Fuel", "Basic Basket", "Rent"])
 
-# Display graphs for selected categories in a "board" layout
+# Display graphs for selected categories
 if not categories:
     st.write("Please select at least one category to display the graphs.")
 else:
     for category in categories:
         if category == "Fuel":
-            st.header("Fuel Prices vs. Salaries")
             real_prices = prepare_data(fuel_df, salary_df, "price per liter")
-            st.pyplot(plot_data_filled("Fuel Prices as % of Salary", real_prices))
+            st.pyplot(plot_data("Fuel Prices as % of Salary", real_prices))
 
         elif category == "Basic Basket":
-            st.header("Basic Basket Prices vs. Salaries")
             real_prices = prepare_data(basket_df, salary_df, "price for basic basket")
-            st.pyplot(plot_data_filled("Basic Basket Prices as % of Salary", real_prices))
+            st.pyplot(plot_data("Basic Basket Prices as % of Salary", real_prices))
 
         elif category == "Rent":
-            st.header("Rent Prices vs. Salaries")
             real_prices = prepare_data(rent_df, salary_df, "price for month")
-            st.pyplot(plot_data_filled("Rent Prices as % of Salary", real_prices))
+            st.pyplot(plot_data("Rent Prices as % of Salary", real_prices))
