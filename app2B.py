@@ -44,7 +44,7 @@ def prepare_data_monthly(salary_df, rent_df, fuel_df, basket_df):
 data = prepare_data_monthly(salary_df, rent_df, fuel_df, basket_df)
 
 # Visualization function: Radar Plot for Each Category
-def plot_category_star(data, category):
+def plot_category_star(data, category, color):
     fig, ax = plt.subplots(figsize=(8, 8), subplot_kw={"projection": "polar"})
     years = data["Year"].values
     values = data[category].values
@@ -57,14 +57,15 @@ def plot_category_star(data, category):
     values = np.append(values, values[0])
 
     # Plot the radar chart
-    ax.plot(angles, values, label=f"{category} as % of Salary", color="blue")
-    ax.fill(angles, values, alpha=0.25, color="blue")
+    ax.plot(angles, values, label=f"{category} as % of Salary", color=color)
+    ax.fill(angles, values, alpha=0.25, color=color)
 
+    # Customize plot ranges
     max_value = np.max(values)
     min_value = np.min(values)
-    range_buffer = (max_value - min_value) * 0.1
+    range_buffer = (max_value - min_value) * 0.1  # Add a 10% buffer to the range
 
-    ax.set_ylim(min_value - range_buffer, max_value + range_buffer)
+    ax.set_ylim(min_value - range_buffer, max_value + range_buffer)  # Adjust radial limits
 
     # Customize plot
     ax.set_xticks(angles[:-1])
