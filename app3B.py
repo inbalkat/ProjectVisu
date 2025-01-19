@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import numpy as np
 
 # Load data from uploaded Excel files
 @st.cache_data
@@ -34,28 +35,31 @@ def calculate_yearly_differences(salary_df, rent_df, fuel_df, basket_df):
     merged_df["difference"] = merged_df["yearly_salary"] - merged_df["yearly_expenses"]
     return merged_df
 
-# Visualization: Heatmap for Differences
+# Visualization: Heatmap of yearly differences
 def plot_heatmap(merged_df):
-    fig, ax = plt.subplots(figsize=(12, 6))
-    heatmap_data = merged_df.pivot("year", "year", "difference")
+    fig, ax = plt.subplots(figsize=(10, 6))
+    heatmap_data = merged_df.set_index("year")[["difference"]].T  # Transform for heatmap
     sns.heatmap(
         heatmap_data,
         annot=True,
         fmt=".0f",
         cmap="coolwarm",
-        cbar_kws={'label': 'Difference (₪)'}
+        linewidths=0.5,
+        linecolor="white",
+        cbar_kws={'label': 'Difference (₪)'},
+        ax=ax
     )
-    ax.set_title("Yearly Difference: Income vs Expenses", fontsize=16)
-    ax.set_xlabel("Year", fontsize=12)
-    ax.set_ylabel("Year", fontsize=12)
+    ax.set_title("Yearly Salary vs Expenses Difference Heatmap")
+    ax.set_xlabel("Year")
+    ax.set_ylabel("Difference")
     return fig
 
 # Streamlit UI
-st.title("Income vs Expenses: Heatmap")
+st.title("Income vs. Expenses Heatmap")
 
 # Calculate yearly differences
 merged_df = calculate_yearly_differences(salary_df, rent_df, fuel_df, basket_df)
 
 # Display heatmap
-st.header("Yearly Difference Heatmap")
+st.header("Yearly Difference: Salary vs Expenses")
 st.pyplot(plot_heatmap(merged_df))
