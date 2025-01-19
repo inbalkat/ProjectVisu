@@ -81,5 +81,13 @@ st.title("Radar Plot: Categories as % of Salary")
 # User selects category
 category = st.selectbox("Choose a category:", ["Rent", "Fuel", "Basic Basket"])
 
+# Assign unique colors for each category
+category_colors = {
+    "Rent": "green",
+    "Fuel": "orange",
+    "Basic Basket": "purple"
+}
+
 # Display radar plot for selected category
-st.pyplot(plot_category_star(data, category))
+selected_color = category_colors[category]
+st.pyplot(plot_category_star(data, category, selected_color))
