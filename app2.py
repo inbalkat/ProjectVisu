@@ -29,7 +29,7 @@ def prepare_data(real_df, salary_df, value_column):
 
 # Visualization function
 def plot_data(title, real_prices):
-    fig, ax = plt.subplots(figsize=(6, 4))
+    fig, ax = plt.subplots(figsize=(10, 6))
     ax.plot(real_prices["year"], real_prices.iloc[:, 1], marker='o', label="Price as % of Salary", color='blue')
     ax.set_title(title)
     ax.set_xlabel("Year")
@@ -43,21 +43,28 @@ def plot_data(title, real_prices):
 st.title("Price Trends vs. Salaries")
 
 # Multi-select for categories
-categories = st.multiselect("Choose categories to display:", ["Fuel", "Basic Basket", "Rent"])
+categories = st.sidebar.multiselect(
+    "Choose categories to display:",
+    ["Fuel", "Basic Basket", "Rent"],
+    default=["Fuel"]  # Default to showing only "Fuel"
+)
 
-# Display graphs for selected categories
+# Display graphs for selected categories in a "board" layout
 if not categories:
     st.write("Please select at least one category to display the graphs.")
 else:
     for category in categories:
         if category == "Fuel":
+            st.header("Fuel Prices vs. Salaries")
             real_prices = prepare_data(fuel_df, salary_df, "price per liter")
             st.pyplot(plot_data("Fuel Prices as % of Salary", real_prices))
 
         elif category == "Basic Basket":
+            st.header("Basic Basket Prices vs. Salaries")
             real_prices = prepare_data(basket_df, salary_df, "price for basic basket")
             st.pyplot(plot_data("Basic Basket Prices as % of Salary", real_prices))
 
         elif category == "Rent":
+            st.header("Rent Prices vs. Salaries")
             real_prices = prepare_data(rent_df, salary_df, "price for month")
             st.pyplot(plot_data("Rent Prices as % of Salary", real_prices))
