@@ -16,7 +16,7 @@ salary_df, rent_df, fuel_df, basket_df = load_data()
 
 # Calculate yearly ratios (slopes) for salaries
 def calculate_salary_ratios(df):
-    df["ratio"] = (df["salary"] / df["salary"].shift(1)) - 1
+    df["ratio"] = df["salary"] / df["salary"].shift(1)
     df["ratio"].iloc[0] = 1  # Set the first year ratio to 1
     return df
 
@@ -28,7 +28,7 @@ st.write(salary_df[["year", "salary", "ratio"]])
 def calculate_predicted_prices(real_prices, salary_ratios):
     predicted_prices = [real_prices.iloc[0]]  # Start with the first real price
     for i in range(1, len(real_prices)):
-        predicted = (predicted_prices[i-1] * salary_ratios.iloc[i]) + predicted_prices[i-1]
+        predicted = predicted_prices[i-1] * salary_ratios.iloc[i]
         predicted_prices.append(predicted)
     return predicted_prices
 
