@@ -29,7 +29,7 @@ def prepare_data(real_df, salary_df, value_column):
 
 # Visualization function
 def plot_data(title, real_prices):
-    fig, ax = plt.subplots(figsize=(6, 4))
+    fig, ax = plt.subplots(figsize=(10, 6))
     ax.plot(real_prices["year"], real_prices.iloc[:, 1], marker='o', label="Price as % of Salary", color='blue')
     ax.set_title(title)
     ax.set_xlabel("Year")
@@ -41,23 +41,17 @@ def plot_data(title, real_prices):
 
 # Streamlit UI
 st.title("Price Trends vs. Salaries")
+st.sidebar.title("Select Category")
+category = st.sidebar.radio("Choose a category:", ("Fuel", "Basic Basket", "Rent"))
 
-# Multi-select for categories
-categories = st.multiselect("Choose categories to display:", ["Fuel", "Basic Basket", "Rent"])
+if category == "Fuel":
+    real_prices = prepare_data(fuel_df, salary_df, "price per liter")
+    st.pyplot(plot_data("Fuel Prices as % of Salary", real_prices))
 
-# Display graphs for selected categories
-if not categories:
-    st.write("Please select at least one category to display the graphs.")
-else:
-    for category in categories:
-        if category == "Fuel":
-            real_prices = prepare_data(fuel_df, salary_df, "price per liter")
-            st.pyplot(plot_data("Fuel Prices as % of Salary", real_prices))
+elif category == "Basic Basket":
+    real_prices = prepare_data(basket_df, salary_df, "price for basic basket")
+    st.pyplot(plot_data("Basic Basket Prices as % of Salary", real_prices))
 
-        elif category == "Basic Basket":
-            real_prices = prepare_data(basket_df, salary_df, "price for basic basket")
-            st.pyplot(plot_data("Basic Basket Prices as % of Salary", real_prices))
-
-        elif category == "Rent":
-            real_prices = prepare_data(rent_df, salary_df, "price for month")
-            st.pyplot(plot_data("Rent Prices as % of Salary", real_prices))
+elif category == "Rent":
+    real_prices = prepare_data(rent_df, salary_df, "price for month")
+    st.pyplot(plot_data("Rent Prices as % of Salary", real_prices))
