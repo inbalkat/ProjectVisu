@@ -66,5 +66,6 @@ merged_df = calculate_yearly_expenses(salary_df, rent_df, fuel_df, basket_df)
 
 # Display combined graph
 st.header("Yearly Salary vs Yearly Expenses")
-st.subheader("Expenses = Rent + Basic Shopping Basket + Fuel")
+st.markdown("<p style='font-size:16px; color:gray;'>Expenses = Rent + Basic Shopping Basket + Fuel</p>", unsafe_allow_html=True) 
+# st.subheader("Expenses = Rent + Basic Shopping Basket + Fuel")
 st.pyplot(plot_combined_salary_and_expenses(merged_df))
