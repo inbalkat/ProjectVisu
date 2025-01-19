@@ -50,7 +50,6 @@ def plot_category_polar(data, category):
 
     # Normalize values for better visualization in the polar bar chart
     angles = np.linspace(0, 2 * np.pi, len(years), endpoint=False).tolist()
-    values = values.tolist()
 
     fig, ax = plt.subplots(figsize=(8, 8), subplot_kw={"projection": "polar"})
 
@@ -63,18 +62,20 @@ def plot_category_polar(data, category):
         align="edge"
     )
 
-    # Add labels to each bar
+    # Add labels to each bar (percentage in the middle of the slice)
     for angle, bar, year, value in zip(angles, bars, years, values):
+        rotation = np.degrees(angle)
+        alignment = "left" if 90 < rotation < 270 else "right"
         ax.text(
-            angle, value + 0.02, f'{year}\n{value:.2%}',
-            ha='center', va='bottom', fontsize=10, color="white"
+            angle, value / 2, f'{value:.1%}',
+            ha="center", va="center", fontsize=12, color="white", fontweight="bold"
         )
 
     # Customize plot
     ax.set_title(f"{category} Percentage of Salary Over Time", fontsize=16)
     ax.set_yticks([])  # Remove radial ticks
     ax.set_xticks(angles)
-    ax.set_xticklabels(years, fontsize=10)
+    ax.set_xticklabels(years, fontsize=10, color="black")
 
     return fig
 
