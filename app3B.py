@@ -51,7 +51,7 @@ def plot_heatmap(merged_df):
     )
     ax.set_title("Yearly Salary vs Expenses Difference Heatmap")
     ax.set_xlabel("Year")
-    ax.set_ylabel("Difference")
+    ax.set_ylabel("")
     return fig
 
 # Streamlit UI
