@@ -37,7 +37,7 @@ def calculate_yearly_differences(salary_df, rent_df, fuel_df, basket_df):
 
 # Visualization: Heatmap of yearly differences
 def plot_heatmap(merged_df):
-    fig, ax = plt.subplots(figsize=(12, 8))
+    fig, ax = plt.subplots(figsize=(10, 6))
     heatmap_data = merged_df.set_index("year")[["difference"]].T  # Transform for heatmap
     sns.heatmap(
         heatmap_data,
