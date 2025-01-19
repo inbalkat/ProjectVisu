@@ -21,6 +21,8 @@ def calculate_salary_ratios(df):
     return df
 
 salary_df = calculate_salary_ratios(salary_df)
+st.write("salary ratios:")
+st.write(salary_df[["year", "salary", "ratio"]])
 
 # Calculate predicted prices based on salary ratios
 def calculate_predicted_prices(real_prices, salary_ratios):
