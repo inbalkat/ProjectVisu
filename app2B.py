@@ -67,7 +67,7 @@ def plot_category_polar(data, category):
         rotation = np.degrees(angle)
         alignment = "left" if 90 < rotation < 270 else "right"
         ax.text(
-            angle, value / 2, f'{value:.1%}',
+            angle, bar.get_height() / 2, f'{value:.1%}',
             ha="center", va="center", fontsize=12, color="white", fontweight="bold"
         )
 
