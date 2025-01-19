@@ -64,6 +64,12 @@ def plot_category_polar(data, category):
         align="center"
     )
 
+    max_value = np.max(values)
+    min_value = np.min(values)
+    range_buffer = (max_value - min_value) * 0.1  # Add a 10% buffer to the range
+
+    ax.set_ylim(min_value - range_buffer, max_value + range_buffer)
+    
     # Add labels to each bar (percentage in the middle of the slice)
     for angle, bar, value in zip(angles[:-1], bars, values[:-1]):
         ax.text(
@@ -75,7 +81,9 @@ def plot_category_polar(data, category):
 
     # Customize plot
     ax.set_title(f"{category} Percentage of Salary Over Time", fontsize=16, pad=20)
-    ax.set_yticks([])  # Remove radial ticks
+    #ax.set_yticks([])  # Remove radial ticks
+    ax.set_yticks(np.linspace(min_value, max_value, 5))  # Dynamically set radial ticks
+    ax.set_yticklabels([f"{tick:.2f}" for tick in np.linspace(min_value, max_value, 5)])
     ax.set_xticks(angles[:-1])  # Remove the repeated angle for the label
     ax.set_xticklabels(years, fontsize=10, color="black")
 
