@@ -61,14 +61,14 @@ def plot_combined_salary_and_expenses(merged_df):
     ax.set_title("Monthly Salary vs Monthly Expenses")
     ax.set_xticks(x)
     ax.set_xticklabels(merged_df["year"])
-    ax.set_ylim(3000, 7500)
+    ax.set_ylim(3000, 7000)
     ax.legend()
-    ax.grid(axis="y")
+    # ax.grid(axis="y")
 
     return fig
 
 # Streamlit UI
-st.title("Cost of Living in Israel")
+# st.title("Cost of Living in Israel")
 
 # Display combined graph
 st.header("Monthly Salary vs Monthly Expenses")
