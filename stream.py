@@ -34,5 +34,5 @@ def main():
     elif app_choice == "Income vs Expenses":
         app3()
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     main()
