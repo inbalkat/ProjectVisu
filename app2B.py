@@ -43,7 +43,7 @@ def prepare_data_monthly(salary_df, rent_df, fuel_df, basket_df):
 
 data = prepare_data_monthly(salary_df, rent_df, fuel_df, basket_df)
 
-# Visualization function: Polar Bar Chart with Custom Range Per Category
+# Visualization function: Polar Bar Chart with Improved Scaling
 def plot_category_polar(data, category):
     years = data["Year"].values
     values = data[category].values
@@ -53,30 +53,29 @@ def plot_category_polar(data, category):
 
     fig, ax = plt.subplots(figsize=(8, 8), subplot_kw={"projection": "polar"})
 
-    # Custom range for each category
-    max_value = np.max(values)
-    min_value = np.min(values)
-    range_buffer = (max_value - min_value) * 0.2  # Add a 20% buffer to emphasize differences
-    ax.set_ylim(min_value - range_buffer, max_value + range_buffer)
-
+    # Plot bars with adjusted width
     bars = ax.bar(
         angles,
         values,
-        width=2 * np.pi / len(years),
+        width=(2 * np.pi / len(years)) * 0.9,  # Slightly reduce bar width to prevent overlap
         color=plt.cm.viridis(np.linspace(0, 1, len(years))),
         edgecolor="white",
-        align="edge"
+        align="center"
     )
 
     # Add labels to each bar (percentage in the middle of the slice)
     for angle, bar, year, value in zip(angles, bars, years, values):
+        # Place text inside the bar (at the middle height of the bar)
         ax.text(
-            angle, value + (range_buffer * 0.05), f'{value:.1%}',
-            ha="center", va="center", fontsize=12, color="white", fontweight="bold"
+            angle,
+            value / 2,  # Place text at half the bar height
+            f'{value:.1%}',
+            ha="center", va="center",
+            fontsize=12, color="white", fontweight="bold"
         )
 
     # Customize plot
-    ax.set_title(f"{category} Percentage of Salary Over Time", fontsize=16)
+    ax.set_title(f"{category} Percentage of Salary Over Time", fontsize=16, pad=20)
     ax.set_yticks([])  # Remove radial ticks
     ax.set_xticks(angles)
     ax.set_xticklabels(years, fontsize=10, color="black")
@@ -91,3 +90,4 @@ category = st.selectbox("Choose a category:", ["Rent", "Fuel", "Basic Basket"])
 
 # Display polar bar chart for selected category
 st.pyplot(plot_category_polar(data, category))
+
