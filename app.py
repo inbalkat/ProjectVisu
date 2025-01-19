@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 # Load data from Excel file
 @st.cache_data
 def load_data():
-    url = "https://github.com/inbalkat/ProjectVisu/raw/main/all_products.xlsx"
+    url = "https://raw.githubusercontent.com/inbalkat/ProjectVisu/main/all_products.xlsx"
     return pd.read_excel(url)
 
 products_df = load_data()
