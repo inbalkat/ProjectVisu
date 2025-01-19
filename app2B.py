@@ -43,48 +43,54 @@ def prepare_data_monthly(salary_df, rent_df, fuel_df, basket_df):
 
 data = prepare_data_monthly(salary_df, rent_df, fuel_df, basket_df)
 
-# Visualization function: Circular Stacked Bar Chart
-def plot_circular_bars(data, category):
+# Visualization function: Radial Scatter Plot
+def plot_radial_scatter(data, category):
     years = data["Year"].values
     values = data[category].values
 
-    # Normalize angles and bar lengths
-    angles = np.linspace(0, 2 * np.pi, len(years), endpoint=False).tolist()
+    # Normalize angles
+    angles = np.linspace(0, 2 * np.pi, len(years), endpoint=False)
 
-    # Create a figure and polar subplot
+    # Create the plot
     fig, ax = plt.subplots(figsize=(8, 8), subplot_kw={"projection": "polar"})
 
-    # Define bar properties
-    bars = ax.bar(
+    # Scatter plot
+    scatter = ax.scatter(
         angles,
         values,
-        width=2 * np.pi / len(years) * 0.9,  # Slightly reduce bar width
-        color=plt.cm.viridis(np.linspace(0, 1, len(years))),
-        edgecolor="white",
-        align="center"
+        c=values,
+        cmap="viridis",
+        s=100,  # Marker size
+        edgecolor="black",
+        alpha=0.8
     )
 
-    # Add labels to each bar (percentage inside the bars)
-    for angle, bar, year, value in zip(angles, bars, years, values):
-        rotation = np.degrees(angle)
+    # Add labels for each point
+    for angle, value, year in zip(angles, values, years):
         ax.text(
-            angle, value / 2, f'{value:.1%}',  # Place text halfway up the bar
-            ha="center", va="center", fontsize=12, color="white", fontweight="bold"
+            angle, value + 0.02,  # Adjust label position slightly outward
+            f'{value:.1%}',
+            ha="center", va="center", fontsize=10, color="black", fontweight="bold"
         )
 
-    # Customize plot
+    # Customize the plot
     ax.set_title(f"{category} Percentage of Salary Over Time", fontsize=16, pad=20)
-    ax.set_yticks([])  # Remove radial ticks
     ax.set_xticks(angles)
-    ax.set_xticklabels(years, fontsize=10, color="black")
+    ax.set_xticklabels(years, fontsize=12, color="black")
+    ax.set_yticks(np.linspace(values.min(), values.max(), 5))  # Custom radial ticks
+    ax.grid(True)
+
+    # Add colorbar
+    cbar = fig.colorbar(scatter, ax=ax, pad=0.1)
+    cbar.set_label("Percentage of Salary", fontsize=12)
 
     return fig
 
 # Streamlit UI
-st.title("Circular Stacked Bar Chart: Categories as % of Salary")
+st.title("Radial Scatter Plot: Categories as % of Salary")
 
 # User selects category
 category = st.selectbox("Choose a category:", ["Rent", "Fuel", "Basic Basket"])
 
-# Display circular bar chart for selected category
-st.pyplot(plot_circular_bars(data, category))
+# Display radial scatter plot for selected category
+st.pyplot(plot_radial_scatter(data, category))
