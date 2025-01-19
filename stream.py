@@ -5,8 +5,6 @@ import numpy as np
 
 # Define separate app functions
 def app1():
-    st.title("Supermarket Product Prices Over Time")
-    
     # Load data from Excel file
     @st.cache_data
     def load_data():
@@ -165,8 +163,6 @@ def app1():
 
 
 def app2():
-    st.title("Categories as % of Salary")
-    
     # Load data from uploaded Excel files
     @st.cache_data
     def load_data():
@@ -260,8 +256,6 @@ def app2():
 
 
 def app3():
-    st.title("Income vs Expenses")
-    
     # Load data from uploaded Excel files
     @st.cache_data
     def load_data():
