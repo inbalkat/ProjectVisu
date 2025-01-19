@@ -43,35 +43,33 @@ def prepare_data_monthly(salary_df, rent_df, fuel_df, basket_df):
 
 data = prepare_data_monthly(salary_df, rent_df, fuel_df, basket_df)
 
-# Visualization function: Polar Bar Chart with Improved Scaling
-def plot_category_polar(data, category):
+# Visualization function: Circular Stacked Bar Chart
+def plot_circular_bars(data, category):
     years = data["Year"].values
     values = data[category].values
 
-    # Normalize values for better visualization in the polar bar chart
+    # Normalize angles and bar lengths
     angles = np.linspace(0, 2 * np.pi, len(years), endpoint=False).tolist()
 
+    # Create a figure and polar subplot
     fig, ax = plt.subplots(figsize=(8, 8), subplot_kw={"projection": "polar"})
 
-    # Plot bars with adjusted width
+    # Define bar properties
     bars = ax.bar(
         angles,
         values,
-        width=(2 * np.pi / len(years)) * 0.9,  # Slightly reduce bar width to prevent overlap
+        width=2 * np.pi / len(years) * 0.9,  # Slightly reduce bar width
         color=plt.cm.viridis(np.linspace(0, 1, len(years))),
         edgecolor="white",
         align="center"
     )
 
-    # Add labels to each bar (percentage in the middle of the slice)
+    # Add labels to each bar (percentage inside the bars)
     for angle, bar, year, value in zip(angles, bars, years, values):
-        # Place text inside the bar (at the middle height of the bar)
+        rotation = np.degrees(angle)
         ax.text(
-            angle,
-            value / 2,  # Place text at half the bar height
-            f'{value:.1%}',
-            ha="center", va="center",
-            fontsize=12, color="white", fontweight="bold"
+            angle, value / 2, f'{value:.1%}',  # Place text halfway up the bar
+            ha="center", va="center", fontsize=12, color="white", fontweight="bold"
         )
 
     # Customize plot
@@ -83,11 +81,10 @@ def plot_category_polar(data, category):
     return fig
 
 # Streamlit UI
-st.title("Polar Bar Plot: Categories as % of Salary")
+st.title("Circular Stacked Bar Chart: Categories as % of Salary")
 
 # User selects category
 category = st.selectbox("Choose a category:", ["Rent", "Fuel", "Basic Basket"])
 
-# Display polar bar chart for selected category
-st.pyplot(plot_category_polar(data, category))
-
+# Display circular bar chart for selected category
+st.pyplot(plot_circular_bars(data, category))
