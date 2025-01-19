@@ -15,34 +15,41 @@ def load_data():
 # Load the data
 salary_df, rent_df, fuel_df, basket_df = load_data()
 
-# Prepare data for a single category
-def prepare_category_data(salary_df, category_df, value_column, category_name):
-    # Ensure the datasets have the same years
-    merged = category_df.merge(salary_df, on="year")
-    
-    # Calculate the category as a percentage of salary
-    category_percent = merged[value_column] / merged["salary"]
-    
-    # Create a DataFrame for the category
+# Prepare data for visualization
+def prepare_data(salary_df, rent_df, fuel_df, basket_df):
+    # Calculate yearly expenses for each category
+    basket_df["yearly_expenses"] = basket_df["price for basic basket"] * 4 * 12
+    fuel_df["yearly_expenses"] = fuel_df["price per liter"] * 100 * 12
+
+    # Merge with salary data
+    merged_rent = rent_df.merge(salary_df, on="year")
+    merged_fuel = fuel_df.merge(salary_df, on="year")
+    merged_basket = basket_df.merge(salary_df, on="year")
+
+    # Calculate percentages of salary
+    rent_percent = merged_rent["price for month"] * 12 / merged_rent["salary"]
+    fuel_percent = merged_fuel["yearly_expenses"] / merged_fuel["salary"]
+    basket_percent = merged_basket["yearly_expenses"] / merged_basket["salary"]
+
+    years = salary_df["year"]
+
     data = pd.DataFrame({
-        "Year": merged["year"],
-        category_name: category_percent
+        "Year": years,
+        "Rent": rent_percent,
+        "Fuel": fuel_percent,
+        "Basic Basket": basket_percent
     })
-    
     return data
 
-# Prepare data for each category
-rent_data = prepare_category_data(salary_df, rent_df, "price for month", "Rent")
-fuel_data = prepare_category_data(salary_df, fuel_df, "price per liter", "Fuel")
-basket_data = prepare_category_data(salary_df, basket_df, "price for basic basket", "Basic Basket")
+data = prepare_data(salary_df, rent_df, fuel_df, basket_df)
 
 # Visualization function: Heatmap
-def plot_heatmap(data, category_name):
-    fig, ax = plt.subplots(figsize=(8, 6))
-    
+def plot_heatmap(data, category):
+    fig, ax = plt.subplots(figsize=(12, 8))
+
     # Pivot data for heatmap
-    heatmap_data = data.set_index("Year").transpose()
-    
+    heatmap_data = data[["Year", category]].set_index("Year").transpose()
+
     sns.heatmap(
         heatmap_data,
         annot=True,
@@ -52,9 +59,9 @@ def plot_heatmap(data, category_name):
         linecolor="white",
         cbar_kws={'label': '% of Salary'}
     )
-    
+
     # Customize plot
-    plt.title(f"Heatmap: {category_name} as % of Salary")
+    plt.title(f"Heatmap: {category} as % of Salary")
     plt.xlabel("Year")
     plt.ylabel("Category")
 
@@ -63,16 +70,8 @@ def plot_heatmap(data, category_name):
 # Streamlit UI
 st.title("Heatmap: Categories as % of Salary")
 
-# Add selection to choose category
-category = st.sidebar.radio(
-    "Choose a category to display:",
-    ("Rent", "Fuel", "Basic Basket")
-)
+# User selects category
+category = st.selectbox("Choose a category:", ["Rent", "Fuel", "Basic Basket"])
 
-# Show heatmap based on the selected category
-if category == "Rent":
-    st.pyplot(plot_heatmap(rent_data, "Rent"))
-elif category == "Fuel":
-    st.pyplot(plot_heatmap(fuel_data, "Fuel"))
-elif category == "Basic Basket":
-    st.pyplot(plot_heatmap(basket_data, "Basic Basket"))
+# Display heatmap for selected category
+st.pyplot(plot_heatmap(data, category))
