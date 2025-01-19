@@ -52,7 +52,7 @@ def plot_combined_salary_and_expenses(merged_df):
     ax.set_title("Yearly Salary vs Yearly Expenses")
     ax.set_xticks(x)
     ax.set_xticklabels(merged_df["year"])
-    ax.set_ylim(40000, 100000)  # Adjusted to reflect yearly values
+    ax.set_ylim(50000, 80000)  # Adjusted to reflect yearly values
     ax.legend()
     ax.grid(axis="y")
 
