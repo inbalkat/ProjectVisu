@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 
 # Load data from uploaded Excel files
 @st.cache_data
@@ -42,27 +43,33 @@ def prepare_data_monthly(salary_df, rent_df, fuel_df, basket_df):
 
 data = prepare_data_monthly(salary_df, rent_df, fuel_df, basket_df)
 
-# Visualization function: Scatter Plot
-def plot_scatter(data, category):
-    fig, ax = plt.subplots(figsize=(10, 6))
+# Visualization function: Star Plot
+def plot_star(data):
+    fig, ax = plt.subplots(figsize=(8, 8), subplot_kw={"projection": "polar"})
+    categories = ["Rent", "Fuel", "Basic Basket"]
+    angles = np.linspace(0, 2 * np.pi, len(categories), endpoint=False).tolist()
 
-    # Scatter plot
-    ax.scatter(data["Year"], data[category], color="blue", label=f"{category} as % of Salary")
+    # Add the closing angle to complete the loop
+    angles += angles[:1]
+
+    # Plot for each year
+    for _, row in data.iterrows():
+        values = row[categories].values.tolist()
+        values += values[:1]  # Repeat the first value to close the loop
+        ax.plot(angles, values, label=f"Year {int(row['Year'])}")
+        ax.fill(angles, values, alpha=0.1)
 
     # Customize plot
-    ax.set_title(f"Scatter Plot: {category} as % of Salary")
-    ax.set_xlabel("Year")
-    ax.set_ylabel("% of Salary")
-    ax.legend()
-    ax.grid(True)
+    ax.set_yticks([])
+    ax.set_xticks(angles[:-1])
+    ax.set_xticklabels(categories)
+    ax.set_title("Star Plot: Categories as % of Salary", va="bottom")
+    ax.legend(loc="upper right", bbox_to_anchor=(1.3, 1.1))
 
     return fig
 
 # Streamlit UI
-st.title("Scatter Plot: Categories as % of Salary")
+st.title("Star Plot: Categories as % of Salary")
 
-# User selects category
-category = st.selectbox("Choose a category:", ["Rent", "Fuel", "Basic Basket"])
-
-# Display scatter plot for selected category
-st.pyplot(plot_scatter(data, category))
+# Display star plot
+st.pyplot(plot_star(data))
