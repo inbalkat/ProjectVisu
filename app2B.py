@@ -43,33 +43,36 @@ def prepare_data_monthly(salary_df, rent_df, fuel_df, basket_df):
 
 data = prepare_data_monthly(salary_df, rent_df, fuel_df, basket_df)
 
-# Visualization function: Star Plot
-def plot_star(data):
+# Visualization function: Radar Plot for Each Category
+def plot_category_star(data, category):
     fig, ax = plt.subplots(figsize=(8, 8), subplot_kw={"projection": "polar"})
-    categories = ["Rent", "Fuel", "Basic Basket"]
-    angles = np.linspace(0, 2 * np.pi, len(categories), endpoint=False).tolist()
+    years = data["Year"].values
+    values = data[category].values
 
-    # Add the closing angle to complete the loop
-    angles += angles[:1]
+    # Define angles for each year
+    angles = np.linspace(0, 2 * np.pi, len(years), endpoint=False).tolist()
+    angles += angles[:1]  # Close the loop
 
-    # Plot for each year
-    for _, row in data.iterrows():
-        values = row[categories].values.tolist()
-        values += values[:1]  # Repeat the first value to close the loop
-        ax.plot(angles, values, label=f"Year {int(row['Year'])}")
-        ax.fill(angles, values, alpha=0.1)
+    # Add the closing value to close the radar plot
+    values = np.append(values, values[0])
+
+    # Plot the radar chart
+    ax.plot(angles, values, label=f"{category} as % of Salary", color="blue")
+    ax.fill(angles, values, alpha=0.25, color="blue")
 
     # Customize plot
-    ax.set_yticks([])
     ax.set_xticks(angles[:-1])
-    ax.set_xticklabels(categories)
-    ax.set_title("Star Plot: Categories as % of Salary", va="bottom")
-    ax.legend(loc="upper right", bbox_to_anchor=(1.3, 1.1))
+    ax.set_xticklabels(years)
+    ax.set_yticks([])
+    ax.set_title(f"Radar Plot: {category} as % of Salary", va="bottom")
 
     return fig
 
 # Streamlit UI
-st.title("Star Plot: Categories as % of Salary")
+st.title("Radar Plot: Categories as % of Salary")
 
-# Display star plot
-st.pyplot(plot_star(data))
+# User selects category
+category = st.selectbox("Choose a category:", ["Rent", "Fuel", "Basic Basket"])
+
+# Display radar plot for selected category
+st.pyplot(plot_category_star(data, category))
