@@ -43,35 +43,46 @@ def prepare_data_monthly(salary_df, rent_df, fuel_df, basket_df):
 
 data = prepare_data_monthly(salary_df, rent_df, fuel_df, basket_df)
 
-# Visualization function: Pie-like Plot
-def plot_category_pie(data, category):
+# Visualization function: Polar Bar Chart
+def plot_category_polar(data, category):
     years = data["Year"].values
     values = data[category].values
 
-    # Normalize values for better visualization in the pie plot
-    total = np.sum(values)
+    # Normalize values for better visualization in the polar bar chart
+    angles = np.linspace(0, 2 * np.pi, len(years), endpoint=False).tolist()
+    values = values.tolist()
 
-    fig, ax = plt.subplots(figsize=(8, 8))
-    wedges, texts, autotexts = ax.pie(
+    fig, ax = plt.subplots(figsize=(8, 8), subplot_kw={"projection": "polar"})
+
+    bars = ax.bar(
+        angles,
         values,
-        labels=years,
-        autopct=lambda p: f'{p:.1f}% ({p * total / 100:.2f})',
-        startangle=90,
-        colors=plt.cm.viridis(np.linspace(0, 1, len(years))),
-        wedgeprops=dict(width=0.3, edgecolor='w')
+        width=2 * np.pi / len(years),
+        color=plt.cm.viridis(np.linspace(0, 1, len(years))),
+        edgecolor="white",
+        align="edge"
     )
 
+    # Add labels to each bar
+    for angle, bar, year, value in zip(angles, bars, years, values):
+        ax.text(
+            angle, value + 0.02, f'{year}\n{value:.2%}',
+            ha='center', va='bottom', fontsize=10, color="white"
+        )
+
     # Customize plot
-    plt.setp(autotexts, size=10, weight="bold", color="white")
     ax.set_title(f"{category} Percentage of Salary Over Time", fontsize=16)
+    ax.set_yticks([])  # Remove radial ticks
+    ax.set_xticks(angles)
+    ax.set_xticklabels(years, fontsize=10)
 
     return fig
 
 # Streamlit UI
-st.title("Pie-like Plot: Categories as % of Salary")
+st.title("Polar Bar Plot: Categories as % of Salary")
 
 # User selects category
 category = st.selectbox("Choose a category:", ["Rent", "Fuel", "Basic Basket"])
 
-# Display pie-like plot for selected category
-st.pyplot(plot_category_pie(data, category))
+# Display polar bar chart for selected category
+st.pyplot(plot_category_polar(data, category))
