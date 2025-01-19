@@ -22,10 +22,6 @@ def calculate_salary_ratios(df):
 
 salary_df = calculate_salary_ratios(salary_df)
 
-# Print salary ratios for debugging
-st.write("Salary Ratios:")
-st.write(salary_df[["year", "ratio"]])
-
 # Calculate predicted prices based on salary ratios
 def calculate_predicted_prices(real_prices, salary_ratios):
     predicted_prices = [real_prices.iloc[0]]  # Start with the first real price
