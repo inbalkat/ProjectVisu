@@ -43,7 +43,7 @@ def prepare_data_monthly(salary_df, rent_df, fuel_df, basket_df):
 
 data = prepare_data_monthly(salary_df, rent_df, fuel_df, basket_df)
 
-# Visualization function: Polar Bar Chart with Range Adjustment
+# Visualization function: Polar Bar Chart with Fixed Scaling
 def plot_category_polar(data, category):
     years = data["Year"].values
     values = data[category].values
@@ -53,12 +53,10 @@ def plot_category_polar(data, category):
 
     fig, ax = plt.subplots(figsize=(8, 8), subplot_kw={"projection": "polar"})
 
-    # Determine the range for radial limits
+    # Fix the range for radial limits to avoid distortions
     max_value = np.max(values)
-    min_value = np.min(values)
-    range_buffer = (max_value - min_value) * 0.1  # Add a 10% buffer to the range
-
-    ax.set_ylim(min_value - range_buffer, max_value + range_buffer)  # Adjust radial limits
+    range_buffer = max_value * 0.2  # Add a 20% buffer to the range
+    ax.set_ylim(0, max_value + range_buffer)
 
     bars = ax.bar(
         angles,
@@ -71,10 +69,8 @@ def plot_category_polar(data, category):
 
     # Add labels to each bar (percentage in the middle of the slice)
     for angle, bar, year, value in zip(angles, bars, years, values):
-        rotation = np.degrees(angle)
-        alignment = "left" if 90 < rotation < 270 else "right"
         ax.text(
-            angle, value / 2, f'{value:.1%}',
+            angle, value + (range_buffer * 0.1), f'{value:.1%}',
             ha="center", va="center", fontsize=12, color="white", fontweight="bold"
         )
 
