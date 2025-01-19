@@ -14,26 +14,29 @@ def load_data():
 # Load the data
 salary_df, rent_df, fuel_df, basket_df = load_data()
 
-# Calculate yearly salary slopes (ratios)
+# Calculate yearly ratios (slopes) for salaries
 def calculate_salary_ratios(df):
     df["ratio"] = df["salary"] / df["salary"].shift(1)
-    df["ratio"].fillna(1, inplace=True)  # First year has no ratio, so set it to 1
+    df["ratio"].iloc[0] = 1  # Set the first year ratio to 1
     return df
 
 salary_df = calculate_salary_ratios(salary_df)
 
 # Calculate predicted prices based on salary ratios
 def calculate_predicted_prices(real_prices, salary_ratios):
-    predicted_prices = [real_prices.iloc[0]]
-    for i in range(1, len(real_prices)):
-        predicted = predicted_prices[-1] * salary_ratios.iloc[i]
-        predicted_prices.append(predicted)
+    predicted_prices = []
+    for i in range(len(real_prices)):
+        if i == 0:
+            predicted_prices.append(real_prices.iloc[i])  # First year remains the same
+        else:
+            predicted = real_prices.iloc[i] * salary_ratios.iloc[i]
+            predicted_prices.append(predicted)
     return predicted_prices
 
 # Prepare data for visualization
 def prepare_data(real_df, salary_df, value_column):
     real_prices = real_df.set_index("year")[value_column]
-    salary_ratios = salary_df.set_index("year")["ratio"]
+    salary_ratios = salary_df.set_index("year")["ratio"].fillna(1)
     predicted_prices = calculate_predicted_prices(real_prices, salary_ratios)
     return real_prices, predicted_prices
 
