@@ -24,13 +24,9 @@ salary_df = calculate_salary_ratios(salary_df)
 
 # Calculate predicted prices based on salary ratios
 def calculate_predicted_prices(real_prices, salary_ratios):
-    predicted_prices = []
-    for i in range(len(real_prices)):
-        if i == 0:
-            predicted_prices.append(real_prices.iloc[i])  # First year remains the same
-        else:
-            predicted = real_prices.iloc[i] * salary_ratios.iloc[i]
-            predicted_prices.append(predicted)
+    predicted_prices = real_prices.copy()
+    for i in range(1, len(real_prices)):
+        predicted_prices.iloc[i] = real_prices.iloc[i] * salary_ratios.iloc[i]
     return predicted_prices
 
 # Prepare data for visualization
