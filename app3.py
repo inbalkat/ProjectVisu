@@ -41,7 +41,7 @@ def plot_combined_salary_and_expenses(merged_df):
 
     # Define custom colors
     salary_color = "cornflowerblue"
-    expenses_color = "lightcoral"
+    expenses_color = "indianred"
 
     ax.bar(x - width/2, merged_df["yearly_salary"], width, label="Yearly Salary", color=salary_color)
     ax.bar(x + width/2, merged_df["yearly_expenses"], width, label="Yearly Expenses", color=expenses_color)
