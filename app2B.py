@@ -60,6 +60,12 @@ def plot_category_star(data, category):
     ax.plot(angles, values, label=f"{category} as % of Salary", color="blue")
     ax.fill(angles, values, alpha=0.25, color="blue")
 
+    max_value = np.max(values)
+    min_value = np.min(values)
+    range_buffer = (max_value - min_value) * 0.1
+
+    ax.set_ylim(min_value - range_buffer, max_value + range_buffer)
+
     # Customize plot
     ax.set_xticks(angles[:-1])
     ax.set_xticklabels(years)
