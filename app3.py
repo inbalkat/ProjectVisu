@@ -15,61 +15,55 @@ def load_data():
 # Load the data
 salary_df, rent_df, fuel_df, basket_df = load_data()
 
-# Calculate monthly cost for basic basket
-def calculate_monthly_basket_cost(basket_df):
-    basket_df["monthly_cost"] = basket_df["price for basic basket"] * 4  # Fixed to 4 baskets per month
-    return basket_df
-
-basket_df = calculate_monthly_basket_cost(basket_df)
-
-# Aggregate total monthly expenses
-def calculate_monthly_expenses(rent_df, fuel_df, basket_df):
-    total_expenses_df = pd.DataFrame()
-    total_expenses_df["year"] = rent_df["year"]
-    total_expenses_df["monthly_expenses"] = (
-        rent_df["price for month"] +  # Monthly rent
-        fuel_df["price per liter"] * 100 +  # 100 liters of fuel per month
-        basket_df["monthly_cost"]  # Monthly cost of basic basket
+# Update calculations to yearly
+def calculate_yearly_expenses(salary_df, rent_df, fuel_df, basket_df):
+    # Update basket to 4 per month * 12 months = 48 baskets per year
+    basket_df["yearly_expenses"] = basket_df["price for basic basket"] * 48
+    # Fuel: Assume 100 liters per month * 12 months = 1200 liters per year
+    fuel_df["yearly_expenses"] = fuel_df["price per liter"] * 1200
+    # Rent: Already yearly
+    rent_df["yearly_expenses"] = rent_df["price for month"] * 12
+    # Combine all yearly expenses
+    salary_df["yearly_salary"] = salary_df["salary"] * 12
+    merged_df = salary_df[["year", "yearly_salary"]].copy()
+    merged_df["yearly_expenses"] = (
+        basket_df["yearly_expenses"].values
+        + fuel_df["yearly_expenses"].values
+        + rent_df["yearly_expenses"].values
     )
-    return total_expenses_df
-
-total_expenses_df = calculate_monthly_expenses(rent_df, fuel_df, basket_df)
-
-# Merge with salary data
-def merge_salary_and_expenses(salary_df, total_expenses_df):
-    merged_df = pd.merge(salary_df, total_expenses_df, on="year")
-    merged_df["expenses_to_salary_ratio"] = merged_df["monthly_expenses"] / merged_df["salary"]
     return merged_df
 
-merged_df = merge_salary_and_expenses(salary_df, total_expenses_df)
-
-# Visualization: Combined Monthly Salary and Expenses
+# Visualization: Combined Yearly Salary and Expenses
 def plot_combined_salary_and_expenses(merged_df):
     fig, ax = plt.subplots(figsize=(12, 8))
     x = np.arange(len(merged_df["year"]))  # the label locations
     width = 0.35  # the width of the bars
 
-    salary_color = "#ADD8E6"
-    expenses_color = "#FFB6C1"
+    # Define custom colors
+    salary_color = "lightskyblue"
+    expenses_color = "lightcoral"
 
-    ax.bar(x - width/2, merged_df["salary"], width, label="Monthly Salary", color="lightskyblue")
-    ax.bar(x + width/2, merged_df["monthly_expenses"], width, label="Monthly Expenses", color="lightcoral")
+    ax.bar(x - width/2, merged_df["yearly_salary"], width, label="Yearly Salary", color=salary_color)
+    ax.bar(x + width/2, merged_df["yearly_expenses"], width, label="Yearly Expenses", color=expenses_color)
 
-    # Add labels, title, and grid
+    # Add labels, title, grid, and customize y-axis range
     ax.set_xlabel("Year")
     ax.set_ylabel("Amount (₪)")
-    ax.set_title("Monthly Salary vs Monthly Expenses")
+    ax.set_title("Yearly Salary vs Yearly Expenses")
     ax.set_xticks(x)
     ax.set_xticklabels(merged_df["year"])
-    ax.set_ylim(3000, 7000)
+    ax.set_ylim(40000, 100000)  # Adjusted to reflect yearly values
     ax.legend()
-    # ax.grid(axis="y")
+    ax.grid(axis="y")
 
     return fig
 
 # Streamlit UI
-# st.title("Cost of Living in Israel")
+st.title("Yearly Cost of Living in Israel")
+
+# Calculate yearly expenses and salaries
+merged_df = calculate_yearly_expenses(salary_df, rent_df, fuel_df, basket_df)
 
 # Display combined graph
-st.header("Monthly Salary vs Monthly Expenses")
+st.header("Yearly Salary vs Yearly Expenses")
 st.pyplot(plot_combined_salary_and_expenses(merged_df))
