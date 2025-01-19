@@ -27,9 +27,9 @@ def prepare_data_monthly(salary_df, rent_df, fuel_df, basket_df):
     merged_basket = basket_df.merge(salary_df, on="year")
 
     # Calculate percentages of salary
-    rent_percent = merged_rent["price for month"] / merged_rent["salary"]
-    fuel_percent = merged_fuel["monthly_expenses"] / merged_fuel["salary"]
-    basket_percent = merged_basket["monthly_expenses"] / merged_basket["salary"]
+    rent_percent = merged_rent["price for month"] / merged_rent["salary"] * 100
+    fuel_percent = merged_fuel["monthly_expenses"] / merged_fuel["salary"] * 100
+    basket_percent = merged_basket["monthly_expenses"] / merged_basket["salary"] * 100
 
     years = salary_df["year"]
 
@@ -71,14 +71,14 @@ def plot_category_star(data, category, color):
     ax.set_xticks(angles[:-1])
     ax.set_xticklabels(years)
     ax.set_yticks(np.linspace(min_value, max_value, 5))  # Dynamically set radial ticks
-    ax.set_yticklabels([f"{tick:.2f}" for tick in np.linspace(min_value, max_value, 5)])
+    ax.set_yticklabels([f"{tick:.1f}%" for tick in np.linspace(min_value, max_value, 5)])
     ax.set_title(f"Radar Plot: {category} as % of Salary", va="bottom", pad=30)
 
     return fig
 
 
 # Streamlit UI
-st.title("Radar Plot: Categories as % of Salary")
+st.title("Categories as % of Salary")
 
 # User selects category
 category = st.selectbox("Choose a category:", ["Rent", "Fuel", "Basic Basket"])
