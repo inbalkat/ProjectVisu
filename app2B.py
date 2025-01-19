@@ -85,3 +85,12 @@ def plot_category_polar(data, category):
     ax.set_xticklabels(years, fontsize=10, color="black")
 
     return fig
+
+# Streamlit UI
+st.title("Polar Bar Plot: Categories as % of Salary")
+
+# User selects category
+category = st.selectbox("Choose a category:", ["Rent", "Fuel", "Basic Basket"])
+
+# Display polar bar chart for selected category
+st.pyplot(plot_category_polar(data, category))
