@@ -50,40 +50,35 @@ def plot_category_polar(data, category):
 
     # Normalize values for better visualization in the polar bar chart
     angles = np.linspace(0, 2 * np.pi, len(years), endpoint=False).tolist()
+    angles += angles[:1]  # Close the circular plot for a seamless look
+    values = np.append(values, values[0])  # Add the first value to the end to close the loop
 
     fig, ax = plt.subplots(figsize=(8, 8), subplot_kw={"projection": "polar"})
 
     bars = ax.bar(
-        angles,
-        values,
+        angles[:-1],  # Use only the original angles for the bars
+        values[:-1],  # Use only the original values for the bars
         width=2 * np.pi / len(years),
         color=plt.cm.viridis(np.linspace(0, 1, len(years))),
         edgecolor="white",
-        align="edge"
+        align="center"
     )
 
     # Add labels to each bar (percentage in the middle of the slice)
-    for angle, bar, year, value in zip(angles, bars, years, values):
-        rotation = np.degrees(angle)
-        alignment = "left" if 90 < rotation < 270 else "right"
+    for angle, bar, value in zip(angles[:-1], bars, values[:-1]):
+        rotation = np.degrees(angle)  # Convert angle to degrees
+        alignment = "center"  # Center alignment for labels
         ax.text(
-            angle, bar.get_height() / 2, f'{value:.1%}',
-            ha="center", va="center", fontsize=12, color="white", fontweight="bold"
+            angle,
+            bar.get_height() / 2,  # Position text at the middle of the bar
+            f'{value:.1%}',
+            ha=alignment, va="center", fontsize=12, color="white", fontweight="bold"
         )
 
     # Customize plot
-    ax.set_title(f"{category} Percentage of Salary Over Time", fontsize=16)
+    ax.set_title(f"{category} Percentage of Salary Over Time", fontsize=16, pad=20)
     ax.set_yticks([])  # Remove radial ticks
-    ax.set_xticks(angles)
+    ax.set_xticks(angles[:-1])  # Remove the repeated angle for the label
     ax.set_xticklabels(years, fontsize=10, color="black")
 
     return fig
-
-# Streamlit UI
-st.title("Polar Bar Plot: Categories as % of Salary")
-
-# User selects category
-category = st.selectbox("Choose a category:", ["Rent", "Fuel", "Basic Basket"])
-
-# Display polar bar chart for selected category
-st.pyplot(plot_category_polar(data, category))
