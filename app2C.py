@@ -72,7 +72,7 @@ def plot_category_star(data, category, color):
     ax.set_xticklabels(years)
     ax.set_yticks(np.linspace(min_value, max_value, 5))  # Dynamically set radial ticks
     ax.set_yticklabels([f"{tick:.2f}" for tick in np.linspace(min_value, max_value, 5)])
-    ax.set_title(f"Radar Plot: {category} as % of Salary", va="bottom")
+    ax.set_title(f"Radar Plot: {category} as % of Salary", va="bottom", pad=30)
 
     return fig
 
