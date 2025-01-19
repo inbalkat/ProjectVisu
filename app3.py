@@ -49,8 +49,11 @@ def plot_combined_salary_and_expenses(merged_df):
     x = np.arange(len(merged_df["year"]))  # the label locations
     width = 0.35  # the width of the bars
 
-    ax.bar(x - width/2, merged_df["salary"], width, label="Monthly Salary", color="green")
-    ax.bar(x + width/2, merged_df["monthly_expenses"], width, label="Monthly Expenses", color="blue")
+    salary_color = "#ADD8E6"
+    expenses_color = "#FFB6C1"
+
+    ax.bar(x - width/2, merged_df["salary"], width, label="Monthly Salary", color=salary_color)
+    ax.bar(x + width/2, merged_df["monthly_expenses"], width, label="Monthly Expenses", color=expenses_color)
 
     # Add labels, title, and grid
     ax.set_xlabel("Year")
@@ -58,6 +61,7 @@ def plot_combined_salary_and_expenses(merged_df):
     ax.set_title("Monthly Salary vs Monthly Expenses")
     ax.set_xticks(x)
     ax.set_xticklabels(merged_df["year"])
+    ax.set_ylim(3000, 8000)
     ax.legend()
     ax.grid(axis="y")
 
