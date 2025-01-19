@@ -424,21 +424,25 @@ else:
 
 # Create the plot
 fig, ax = plt.subplots(figsize=(10, 6))
-ax.plot(
-    total_prices['year'],
-    total_prices['yearly average price'],
-    marker='o',
-    color='black',
-    linewidth=2,
-    label="Total Basket Cost"
-)
+if not filtered_df.empty:
+    ax.plot(
+        total_prices['year'],
+        total_prices['yearly average price'],
+        marker='o',
+        color='black',
+        linewidth=2,
+        label="Total Basket Cost"
+    )
+    ax.set_xticks(range(2015, 2025))
+    ax.legend()
+else:
+    ax.text(0.5, 0.5, "No items selected", fontsize=14, ha='center', va='center')
+    ax.set_xticks([])
 
 # Customize the plot
 ax.set_xlabel("Year")
 ax.set_ylabel("Total Cost (₪)")
 ax.set_title("Total Cost of Selected Products Over Time")
-ax.set_xticks(range(2015, 2025))  # Ensure all years are shown on the x-axis
-ax.legend()
 ax.grid(True)
 
 # Display the plot in Streamlit
