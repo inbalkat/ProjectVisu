@@ -17,7 +17,7 @@ salary_df, rent_df, fuel_df, basket_df = load_data()
 
 # Calculate monthly cost for basic basket
 def calculate_monthly_basket_cost(basket_df):
-    basket_df["monthly_cost"] = basket_df["price for basic basket"] * 6  # Fixed to 6 baskets per month
+    basket_df["monthly_cost"] = basket_df["price for basic basket"] * 4  # Fixed to 4 baskets per month
     return basket_df
 
 basket_df = calculate_monthly_basket_cost(basket_df)
@@ -52,8 +52,8 @@ def plot_combined_salary_and_expenses(merged_df):
     salary_color = "#ADD8E6"
     expenses_color = "#FFB6C1"
 
-    ax.bar(x - width/2, merged_df["salary"], width, label="Monthly Salary", color=salary_color)
-    ax.bar(x + width/2, merged_df["monthly_expenses"], width, label="Monthly Expenses", color=expenses_color)
+    ax.bar(x - width/2, merged_df["salary"], width, label="Monthly Salary", color="lightskyblue")
+    ax.bar(x + width/2, merged_df["monthly_expenses"], width, label="Monthly Expenses", color="lightcoral")
 
     # Add labels, title, and grid
     ax.set_xlabel("Year")
@@ -61,7 +61,7 @@ def plot_combined_salary_and_expenses(merged_df):
     ax.set_title("Monthly Salary vs Monthly Expenses")
     ax.set_xticks(x)
     ax.set_xticklabels(merged_df["year"])
-    ax.set_ylim(3000, 8000)
+    ax.set_ylim(3000, 7500)
     ax.legend()
     ax.grid(axis="y")
 
