@@ -59,7 +59,7 @@ def plot_combined_salary_and_expenses(merged_df):
     return fig
 
 # Streamlit UI
-st.title("Yearly Cost of Living in Israel")
+st.title("Income vs. Expenses")
 
 # Calculate yearly expenses and salaries
 merged_df = calculate_yearly_expenses(salary_df, rent_df, fuel_df, basket_df)
