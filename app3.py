@@ -35,7 +35,7 @@ def calculate_yearly_expenses(salary_df, rent_df, fuel_df, basket_df):
 
 # Visualization: Combined Yearly Salary and Expenses
 def plot_combined_salary_and_expenses(merged_df):
-    fig, ax = plt.subplots(figsize=(12, 8))
+    fig, ax = plt.subplots(figsize=(12, 10))
     x = np.arange(len(merged_df["year"]))  # the label locations
     width = 0.35  # the width of the bars
 
