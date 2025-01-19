@@ -50,7 +50,6 @@ def plot_category_pie(data, category):
 
     # Normalize values for better visualization in the pie plot
     total = np.sum(values)
-    normalized_values = values / total
 
     fig, ax = plt.subplots(figsize=(8, 8))
     wedges, texts, autotexts = ax.pie(
@@ -63,8 +62,8 @@ def plot_category_pie(data, category):
     )
 
     # Customize plot
+    plt.setp(autotexts, size=10, weight="bold", color="white")
     ax.set_title(f"{category} Percentage of Salary Over Time", fontsize=16)
-    plt.setp(autotexts, size=10, weight="bold")
 
     return fig
 
