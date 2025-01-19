@@ -45,6 +45,7 @@ def plot_data(title, real_prices, predicted_prices):
     ax.set_title(title)
     ax.set_xlabel("Year")
     ax.set_ylabel("Price")
+    ax.set_xticks(range(2015, 2025))
     ax.legend()
     ax.grid(True)
     return fig
