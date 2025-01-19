@@ -43,54 +43,49 @@ def prepare_data_monthly(salary_df, rent_df, fuel_df, basket_df):
 
 data = prepare_data_monthly(salary_df, rent_df, fuel_df, basket_df)
 
-# Visualization function: Radial Scatter Plot
-def plot_radial_scatter(data, category):
+# Visualization function: Polar Bar Chart
+def plot_category_polar(data, category):
     years = data["Year"].values
     values = data[category].values
 
-    # Normalize angles
-    angles = np.linspace(0, 2 * np.pi, len(years), endpoint=False)
+    # Normalize values for better visualization in the polar bar chart
+    angles = np.linspace(0, 2 * np.pi, len(years), endpoint=False).tolist()
+    angles += angles[:1]  # Close the circular plot for a seamless look
+    values = np.append(values, values[0])  # Add the first value to the end to close the loop
 
-    # Create the plot
     fig, ax = plt.subplots(figsize=(8, 8), subplot_kw={"projection": "polar"})
 
-    # Scatter plot
-    scatter = ax.scatter(
-        angles,
-        values,
-        c=values,
-        cmap="viridis",
-        s=100,  # Marker size
-        edgecolor="black",
-        alpha=0.8
+    bars = ax.bar(
+        angles[:-1],  # Use only the original angles for the bars
+        values[:-1],  # Use only the original values for the bars
+        width=2 * np.pi / len(years),
+        color=plt.cm.viridis(np.linspace(0, 1, len(years))),
+        edgecolor="white",
+        align="center"
     )
-
-    # Add labels for each point
-    for angle, value, year in zip(angles, values, years):
+    
+    # Add labels to each bar (percentage in the middle of the slice)
+    for angle, bar, value in zip(angles[:-1], bars, values[:-1]):
         ax.text(
-            angle, value + 0.02,  # Adjust label position slightly outward
+            angle,
+            bar.get_height() / 2,  # Position text at the middle of the bar
             f'{value:.1%}',
-            ha="center", va="center", fontsize=10, color="black", fontweight="bold"
+            ha="center", va="center", fontsize=12, color="white", fontweight="bold"
         )
 
-    # Customize the plot
+    # Customize plot
     ax.set_title(f"{category} Percentage of Salary Over Time", fontsize=16, pad=20)
-    ax.set_xticks(angles)
-    ax.set_xticklabels(years, fontsize=12, color="black")
-    ax.set_yticks(np.linspace(values.min(), values.max(), 5))  # Custom radial ticks
-    ax.grid(True)
-
-    # Add colorbar
-    cbar = fig.colorbar(scatter, ax=ax, pad=0.1)
-    cbar.set_label("Percentage of Salary", fontsize=12)
+    ax.set_yticks([])  # Remove radial ticks
+    ax.set_xticks(angles[:-1])  # Remove the repeated angle for the label
+    ax.set_xticklabels(years, fontsize=10, color="black")
 
     return fig
 
 # Streamlit UI
-st.title("Radial Scatter Plot: Categories as % of Salary")
+st.title("Polar Bar Plot: Categories as % of Salary")
 
 # User selects category
 category = st.selectbox("Choose a category:", ["Rent", "Fuel", "Basic Basket"])
 
-# Display radial scatter plot for selected category
-st.pyplot(plot_radial_scatter(data, category))
+# Display polar bar chart for selected category
+st.pyplot(plot_category_polar(data, category))
