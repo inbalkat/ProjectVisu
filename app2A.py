@@ -18,8 +18,8 @@ salary_df, rent_df, fuel_df, basket_df = load_data()
 # Prepare data for visualization
 def prepare_data(salary_df, rent_df, fuel_df, basket_df):
     # Calculate yearly expenses for each category
-    basket_df["yearly_expenses"] = basket_df["price for basic basket"] * 4 * 12
-    fuel_df["yearly_expenses"] = fuel_df["price per liter"] * 100 * 12
+    basket_df["yearly_expenses"] = basket_df["price for basic basket"] * 4 
+    fuel_df["yearly_expenses"] = fuel_df["price per liter"] * 100
 
     # Merge with salary data
     merged_rent = rent_df.merge(salary_df, on="year")
@@ -27,7 +27,7 @@ def prepare_data(salary_df, rent_df, fuel_df, basket_df):
     merged_basket = basket_df.merge(salary_df, on="year")
 
     # Calculate percentages of salary
-    rent_percent = merged_rent["price for month"] * 12 / merged_rent["salary"]
+    rent_percent = merged_rent["price for month"] / merged_rent["salary"]
     fuel_percent = merged_fuel["yearly_expenses"] / merged_fuel["salary"]
     basket_percent = merged_basket["yearly_expenses"] / merged_basket["salary"]
 
