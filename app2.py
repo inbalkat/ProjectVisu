@@ -16,14 +16,21 @@ salary_df, rent_df, fuel_df, basket_df = load_data()
 
 # Prepare data for visualization
 def prepare_data(real_df, salary_df, value_column):
-    merged_df = real_df.merge(salary_df, on="year", how="inner")
-    real_prices = merged_df[value_column] / merged_df["salary"]
+    # Align years across both datasets
+    real_df = real_df.set_index("year")
+    salary_df = salary_df.set_index("year")
+    
+    # Ensure the years align before calculation
+    real_prices = real_df[value_column] / salary_df["salary"]
+    
+    # Reset the index for plotting
+    real_prices = real_prices.reset_index()
     return real_prices
 
 # Visualization function
 def plot_data(title, real_prices):
     fig, ax = plt.subplots(figsize=(10, 6))
-    ax.plot(real_prices.index, real_prices.values, marker='o', label="Price as % of Salary", color='blue')
+    ax.plot(real_prices["year"], real_prices.iloc[:, 1], marker='o', label="Price as % of Salary", color='blue')
     ax.set_title(title)
     ax.set_xlabel("Year")
     ax.set_ylabel("Ratio to Salary")
