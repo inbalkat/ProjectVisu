@@ -66,13 +66,11 @@ def plot_category_polar(data, category):
 
     # Add labels to each bar (percentage in the middle of the slice)
     for angle, bar, value in zip(angles[:-1], bars, values[:-1]):
-        rotation = np.degrees(angle)  # Convert angle to degrees
-        alignment = "center"  # Center alignment for labels
         ax.text(
             angle,
             bar.get_height() / 2,  # Position text at the middle of the bar
             f'{value:.1%}',
-            ha=alignment, va="center", fontsize=12, color="white", fontweight="bold"
+            ha="center", va="center", fontsize=12, color="white", fontweight="bold"
         )
 
     # Customize plot
@@ -82,3 +80,12 @@ def plot_category_polar(data, category):
     ax.set_xticklabels(years, fontsize=10, color="black")
 
     return fig
+
+# Streamlit UI
+st.title("Polar Bar Plot: Categories as % of Salary")
+
+# User selects category
+category = st.selectbox("Choose a category:", ["Rent", "Fuel", "Basic Basket"])
+
+# Display polar bar chart for selected category
+st.pyplot(plot_category_polar(data, category))
