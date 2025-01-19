@@ -14,30 +14,23 @@ def load_data():
 # Load the data
 salary_df, rent_df, fuel_df, basket_df = load_data()
 
-# Normalize a dataframe column based on the first year's value
-def normalize_column(df, column_name):
-    df[f"normalized_{column_name}"] = df[column_name] / df[column_name].iloc[0]
-    return df
-
-# Normalize all relevant columns
-salary_df = normalize_column(salary_df, "salary")
-rent_df = normalize_column(rent_df, "price for month")
-fuel_df = normalize_column(fuel_df, "price per liter")
-basket_df = normalize_column(basket_df, "price for basic basket")
-
-# Calculate salary ratios based on normalized values
+# Calculate yearly ratios (slopes) for salaries
 def calculate_salary_ratios(df):
-    df["ratio"] = df["normalized_salary"] / df["normalized_salary"].shift(1)
+    df["ratio"] = df["salary"] / df["salary"].shift(1)
     df["ratio"].iloc[0] = 1  # Set the first year ratio to 1
     return df
 
 salary_df = calculate_salary_ratios(salary_df)
 
+# Print salary ratios for debugging
+st.write("Salary Ratios:")
+st.write(salary_df[["year", "ratio"]])
+
 # Calculate predicted prices based on salary ratios
 def calculate_predicted_prices(real_prices, salary_ratios):
     predicted_prices = [real_prices.iloc[0]]  # Start with the first real price
     for i in range(1, len(real_prices)):
-        predicted = real_prices.iloc[i] * salary_ratios.iloc[i]  # Calculate predicted price
+        predicted = predicted_prices[-1] * salary_ratios.iloc[i]
         predicted_prices.append(predicted)
     return predicted_prices
 
