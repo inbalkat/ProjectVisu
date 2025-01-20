@@ -38,22 +38,35 @@ def prepare_data(salary_df, rent_df, fuel_df, basket_df):
 
 data = prepare_data(salary_df, rent_df, fuel_df, basket_df)
 
-# Visualization function: Combined Area Plot
+# Visualization function: Overlapping Area Plot
 def plot_combined_area(data):
     fig, ax = plt.subplots(figsize=(10, 6))
     
-    # Plot each category as a stacked area plot
-    ax.stackplot(
+    # Plot each category separately
+    ax.fill_between(
+        data["Year"],
+        data["Fuel"] * 100,  # Convert to percentage
+        color="lightcoral",
+        alpha=0.7,
+        label="Fuel"
+    )
+    ax.fill_between(
+        data["Year"],
+        data["Basic Basket"] * 100,  # Convert to percentage
+        color="lightgreen",
+        alpha=0.7,
+        label="Basic Basket"
+    )
+    ax.fill_between(
         data["Year"],
         data["Rent"] * 100,  # Convert to percentage
-        data["Fuel"] * 100,  # Convert to percentage
-        data["Basic Basket"] * 100,  # Convert to percentage
-        labels=["Rent", "Fuel", "Basic Basket"],
-        colors=["skyblue", "lightcoral", "lightgreen"]
+        color="skyblue",
+        alpha=0.7,
+        label="Rent"
     )
     
     # Customize the plot
-    ax.set_title("Monthly Expenses as Percentage of Salary", fontsize=16)
+    ax.set_title("Monthly Expenses as Percentage of Salary (Non-Stacked)", fontsize=16)
     ax.set_xlabel("Year")
     ax.set_ylabel("Percentage of Salary (%)")
     ax.legend(loc="upper left")
@@ -62,8 +75,8 @@ def plot_combined_area(data):
     return fig
 
 # Streamlit UI
-st.title("Monthly Expenses vs. Salary")
-st.header("Combined Area Plot")
+st.title("Monthly Expenses vs. Salary (Non-Stacked)")
+st.header("Overlapping Area Plot")
 
-# Display the combined area plot
+# Display the overlapping area plot
 st.pyplot(plot_combined_area(data))
