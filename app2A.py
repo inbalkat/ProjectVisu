@@ -45,10 +45,10 @@ def plot_combined_area(data):
     # Plot each category separately
     ax.fill_between(
         data["Year"],
-        data["Fuel"] * 100,  # Convert to percentage
-        color="lightcoral",
+        data["Rent"] * 100,  # Convert to percentage
+        color="skyblue",
         alpha=0.7,
-        label="Fuel"
+        label="Rent"
     )
     ax.fill_between(
         data["Year"],
@@ -59,11 +59,12 @@ def plot_combined_area(data):
     )
     ax.fill_between(
         data["Year"],
-        data["Rent"] * 100,  # Convert to percentage
-        color="skyblue",
+        data["Fuel"] * 100,  # Convert to percentage
+        color="lightcoral",
         alpha=0.7,
-        label="Rent"
+        label="Fuel"
     )
+    
     
     # Customize the plot
     ax.set_title("Monthly Expenses as Percentage of Salary (Non-Stacked)", fontsize=16)
