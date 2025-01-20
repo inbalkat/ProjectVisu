@@ -70,6 +70,7 @@ def plot_combined_area(data):
     ax.set_title("Monthly Expenses as Percentage of Salary (Non-Stacked)", fontsize=16)
     ax.set_xlabel("Year")
     ax.set_ylabel("Percentage of Salary (%)")
+    ax.set_ylim(0, 100)
     ax.legend(loc="upper left")
     ax.grid(axis="y", linestyle="--", alpha=0.7)
 
