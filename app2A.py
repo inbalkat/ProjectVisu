@@ -53,23 +53,24 @@ def plot_combined_area(data):
     ax.fill_between(
         data["Year"],
         data["Basic Basket"] * 100,  # Convert to percentage
-        color="lightgreen",
+        color="purple",
         alpha=0.7,
         label="Basic Basket"
     )
     ax.fill_between(
         data["Year"],
         data["Fuel"] * 100,  # Convert to percentage
-        color="lightcoral",
+        color="navy",
         alpha=0.7,
         label="Fuel"
     )
     
     
     # Customize the plot
-    ax.set_title("Monthly Expenses as Percentage of Salary (Non-Stacked)", fontsize=16)
+    ax.set_title("Categories as % of Salary", fontsize=16)
     ax.set_xlabel("Year")
     ax.set_ylabel("Percentage of Salary (%)")
+    ax.set_xticks(range(2015, 2025))
     ax.set_ylim(0, 100)
     ax.legend(loc="upper left")
     ax.grid(axis="y", linestyle="--", alpha=0.7)
@@ -77,8 +78,8 @@ def plot_combined_area(data):
     return fig
 
 # Streamlit UI
-st.title("Monthly Expenses vs. Salary (Non-Stacked)")
-st.header("Overlapping Area Plot")
+st.title("Categories as % of Salary")
+# st.header("")
 
 # Display the overlapping area plot
 st.pyplot(plot_combined_area(data))
