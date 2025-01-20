@@ -45,8 +45,8 @@ def plot_combined_data(title, fuel_prices, basket_prices, rent_prices):
     return fig
 
 # Prepare the data for each category
-fuel_prices = prepare_data(fuel_df, salary_df, "price per liter")
-basket_prices = prepare_data(basket_df, salary_df, "price for basic basket")
+fuel_prices = prepare_data(fuel_df, salary_df, "price per liter", multiplier=100)
+basket_prices = prepare_data(basket_df, salary_df, "price for basic basket", multiplier=4)
 rent_prices = prepare_data(rent_df, salary_df, "price for month")
 
 # Streamlit UI
