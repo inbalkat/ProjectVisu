@@ -28,30 +28,30 @@ def prepare_data(real_df, salary_df, value_column):
     return real_prices
 
 # Visualization function
-def plot_data(title, real_prices):
+def plot_combined_data(title, fuel_prices, basket_prices, rent_prices):
     fig, ax = plt.subplots(figsize=(10, 6))
-    ax.plot(real_prices["year"], real_prices.iloc[:, 1], marker='o', label="Price as % of Salary", color='blue')
+    
+    ax.plot(fuel_prices["year"], fuel_prices.iloc[:, 1], label="Fuel as % of Salary", color='orange')
+    ax.plot(basket_prices["year"], basket_prices.iloc[:, 1], label="Basic Basket as % of Salary", color='green')
+    ax.plot(rent_prices["year"], rent_prices.iloc[:, 1], label="Rent as % of Salary", color='blue')
+    
     ax.set_title(title)
     ax.set_xlabel("Year")
     ax.set_ylabel("Ratio to Salary")
     ax.set_xticks(range(2015, 2025))
     ax.legend()
     ax.grid(True)
+    
     return fig
+
+# Prepare the data for each category
+fuel_prices = prepare_data(fuel_df, salary_df, "price per liter")
+basket_prices = prepare_data(basket_df, salary_df, "price for basic basket")
+rent_prices = prepare_data(rent_df, salary_df, "price for month")
 
 # Streamlit UI
 st.title("Price Trends vs. Salaries")
-st.sidebar.title("Select Category")
-category = st.sidebar.radio("Choose a category:", ("Fuel", "Basic Basket", "Rent"))
+st.header("All Categories on a Single Plot")
 
-if category == "Fuel":
-    real_prices = prepare_data(fuel_df, salary_df, "price per liter")
-    st.pyplot(plot_data("Fuel Prices as % of Salary", real_prices))
-
-elif category == "Basic Basket":
-    real_prices = prepare_data(basket_df, salary_df, "price for basic basket")
-    st.pyplot(plot_data("Basic Basket Prices as % of Salary", real_prices))
-
-elif category == "Rent":
-    real_prices = prepare_data(rent_df, salary_df, "price for month")
-    st.pyplot(plot_data("Rent Prices as % of Salary", real_prices))
+# Display combined plot
+st.pyplot(plot_combined_data("Prices of Categories as % of Salary", fuel_prices, basket_prices, rent_prices))
