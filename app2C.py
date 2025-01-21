@@ -144,28 +144,34 @@ def plot_category_stairs_plotly(data, category, color):
         x=years,
         y=values,
         mode='lines+markers',
-        line=dict(color=color, width=5, shape='hv'),  # 'hv' for step-like stairs
-        marker=dict(size=10, color=color),
+        line=dict(color=color, width=3, shape='hv'),  # 'hv' for step-like stairs
+        marker=dict(size=8, color=color),
         text=[f"<b>{value:.2f}%</b>" for value in values],  # Values to show on hover
         hoverinfo="text",
         name=f"{category} as % of Salary"
     ))
 
+    # Calculate dynamic range
+    value_range = values.max() - values.min()
+    buffer = value_range * 0.2  # Add 20% buffer on each side
+
     # Customize layout
     fig.update_layout(
         title=f"<b>Interactive Stair Plot: {category} as % of Salary</b>",
-        title_font_size=20,  # הגדלת גודל הכותרת
+        title_font_size=20,
         xaxis=dict(title="Year", tickmode="linear"),
         yaxis=dict(
             title="Percentage of Salary (%)",
-            range=[max(0, values.min() - 5), values.max() + 5]  # הרחבת טווח ציר ה-y
+            range=[values.min() - buffer, values.max() + buffer]  # Dynamic range
         ),
         hoverlabel=dict(
-            font_size=16,  # גודל טקסט גדול יותר בהובר
+            font_size=16,
             font_family="Arial"
         ),
         template="plotly_white",
-        legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01)
+        legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01),
+        width=1200,  # Larger plot width
+        height=800   # Larger plot height
     )
 
     return fig
