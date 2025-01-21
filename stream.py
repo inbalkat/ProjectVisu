@@ -169,6 +169,10 @@ def app1():
 
 
 def app2():
+    import streamlit as st
+    import pandas as pd
+    import plotly.graph_objects as go
+    
     # Load data from uploaded Excel files
     @st.cache_data
     def load_data():
@@ -209,39 +213,49 @@ def app2():
     
     data = prepare_data_monthly(salary_df, rent_df, fuel_df, basket_df)
     
-    # Visualization function: Radar Plot for Each Category
-    def plot_category_star(data, category, color):
-        fig, ax = plt.subplots(figsize=(8, 8), subplot_kw={"projection": "polar"})
+    # Visualization function: Interactive Stairs Plot using Plotly
+    def plot_category_stairs_plotly(data, category, color):
         years = data["Year"].values
         values = data[category].values
     
-        # Define angles for each year
-        angles = np.linspace(0, 2 * np.pi, len(years), endpoint=False).tolist()
-        angles += angles[:1]  # Close the loop
+        # Create Plotly figure
+        fig = go.Figure()
     
-        # Add the closing value to close the radar plot
-        values = np.append(values, values[0])
+        # Add step plot
+        fig.add_trace(go.Scatter(
+            x=years,
+            y=values,
+            mode='lines+markers',
+            line=dict(color=color, width=3, shape='hv'),  # 'hv' for step-like stairs
+            marker=dict(size=8, color=color),
+            text=[f"<b>{value:.2f}%</b>" for value in values],  # Values to show on hover
+            hoverinfo="text",
+            name=f"{category} as % of Salary"
+        ))
     
-        # Plot the radar chart
-        ax.plot(angles, values, label=f"{category} as % of Salary", color=color)
-        ax.fill(angles, values, alpha=0.25, color=color)
+        # Calculate dynamic range
+        value_range = values.max() - values.min()
+        buffer = value_range * 0.5
     
-        # Customize plot ranges
-        max_value = np.max(values)
-        min_value = np.min(values)
-        range_buffer = (max_value - min_value) * 0.1  # Add a 10% buffer to the range
-    
-        ax.set_ylim(min_value - range_buffer, max_value + range_buffer)  # Adjust radial limits
-    
-        # Customize plot
-        ax.set_xticks(angles[:-1])
-        ax.set_xticklabels(years)
-        ax.set_yticks(np.linspace(min_value, max_value, 5))  # Dynamically set radial ticks
-        ax.set_yticklabels([f"{tick:.1f}%" for tick in np.linspace(min_value, max_value, 5)])
-        ax.set_title(f"Radar Plot: {category} as % of Salary", va="bottom", pad=30)
+        # Customize layout
+        fig.update_layout(
+            title=f"<b>{category} as % of Salary</b>",
+            title_font_size=20,
+            xaxis=dict(title="Year", tickmode="linear"),
+            yaxis=dict(
+                title="Percentage of Salary (%)",
+                range=[values.min() - buffer, values.max() + buffer]  # Dynamic range
+            ),
+            hoverlabel=dict(
+                font_size=14
+            ),
+            template="plotly_white",
+            legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01),
+            width=1600,
+            height=500
+        )
     
         return fig
-    
     
     # Streamlit UI
     st.title("Categories as % of Salary")
@@ -250,15 +264,15 @@ def app2():
     category = st.selectbox("Choose a category:", ["Rent", "Fuel", "Basic Basket"])
     
     # Assign unique colors for each category
-    category_colors = {
-        "Rent": "green",
-        "Fuel": "orange",
-        "Basic Basket": "purple"
+    category_colors = { 
+        "Rent": "#40C7A3", 
+        "Fuel": "#FF9800",          
+        "Basic Basket": "#C19AFF"   
     }
     
-    # Display radar plot for selected category
+    # Display interactive stairs plot for selected category
     selected_color = category_colors[category]
-    st.pyplot(plot_category_star(data, category, selected_color))
+    st.plotly_chart(plot_category_stairs_plotly(data, category, selected_color))
 
 
 def app3():
