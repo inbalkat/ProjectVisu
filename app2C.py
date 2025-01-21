@@ -43,42 +43,31 @@ def prepare_data_monthly(salary_df, rent_df, fuel_df, basket_df):
 
 data = prepare_data_monthly(salary_df, rent_df, fuel_df, basket_df)
 
-# Visualization function: Radar Plot for Each Category
-def plot_category_star(data, category, color):
-    fig, ax = plt.subplots(figsize=(8, 8), subplot_kw={"projection": "polar"})
+# Visualization function: Stairs Plot for Each Category
+def plot_category_stairs(data, category, color):
+    fig, ax = plt.subplots(figsize=(10, 6))
     years = data["Year"].values
     values = data[category].values
 
-    # Define angles for each year
-    angles = np.linspace(0, 2 * np.pi, len(years), endpoint=False).tolist()
-    angles += angles[:1]  # Close the loop
+    # Create step plot
+    ax.step(years, values, label=f"{category} as % of Salary", color=color, where='mid', linewidth=2)
 
-    # Add the closing value to close the radar plot
-    values = np.append(values, values[0])
-
-    # Plot the radar chart
-    ax.plot(angles, values, label=f"{category} as % of Salary", color=color)
-    ax.fill(angles, values, alpha=0.25, color=color)
-
-    # Customize plot ranges
-    max_value = np.max(values)
-    min_value = np.min(values)
-    range_buffer = (max_value - min_value) * 0.1  # Add a 10% buffer to the range
-
-    ax.set_ylim(min_value - range_buffer, max_value + range_buffer)  # Adjust radial limits
+    # Highlight each step with a scatter plot for clarity
+    ax.scatter(years, values, color=color, edgecolor="black", zorder=5)
 
     # Customize plot
-    ax.set_xticks(angles[:-1])
-    ax.set_xticklabels(years)
-    ax.set_yticks(np.linspace(min_value, max_value, 5))  # Dynamically set radial ticks
-    ax.set_yticklabels([f"{tick:.1f}%" for tick in np.linspace(min_value, max_value, 5)])
-    ax.set_title(f"Radar Plot: {category} as % of Salary", va="bottom", pad=30)
+    ax.set_title(f"Stair Plot: {category} as % of Salary", fontsize=16)
+    ax.set_xlabel("Year")
+    ax.set_ylabel("Percentage of Salary (%)")
+    ax.set_xticks(years)
+    ax.set_yticks(np.linspace(values.min(), values.max(), 5))
+    ax.legend()
+    ax.grid(True)
 
     return fig
 
-
 # Streamlit UI
-st.title("Categories as % of Salary")
+st.title("Stairs Plot: Categories as % of Salary")
 
 # User selects category
 category = st.selectbox("Choose a category:", ["Rent", "Fuel", "Basic Basket"])
@@ -90,6 +79,6 @@ category_colors = {
     "Basic Basket": "purple"
 }
 
-# Display radar plot for selected category
+# Display stairs plot for selected category
 selected_color = category_colors[category]
-st.pyplot(plot_category_star(data, category, selected_color))
+st.pyplot(plot_category_stairs(data, category, selected_color))
