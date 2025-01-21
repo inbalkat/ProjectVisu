@@ -171,7 +171,7 @@ def plot_category_stairs_plotly(data, category, color):
         template="plotly_white",
         legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01),
         width=1600,  # Larger plot width
-        height=400   # Larger plot height
+        height=500   # Larger plot height
     )
 
     return fig
