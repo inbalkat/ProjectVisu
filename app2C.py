@@ -57,7 +57,7 @@ def plot_category_stairs(data, category, color):
 
     max_val = values.max()
     min_val = values.min()
-    buffer = (max_val-min_val) * 0.2
+    buffer = (max_val-min_val) * 0.5
     ax.set_ylim(min_val-buffer, max_val+buffer)
 
     # Customize plot
