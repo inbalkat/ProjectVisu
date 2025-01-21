@@ -151,6 +151,7 @@ if not filtered_df.empty:
     min_value = total_prices['yearly average price'].min()
     buffer = (max_value - min_value) * 0.5
     ax.set_ylim(min_value - buffer, max_value + buffer)
+    st.write(f"min val: {min_value}, max val: {max_value}, buffer: {buffer}")
     
 else:
     ax.text(0.5, 0.5, "No items selected", fontsize=14, ha='center', va='center')
