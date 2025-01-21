@@ -151,7 +151,7 @@ else:
 
 max_val = values.max()
 min_val = values.min()
-buffer = (max_val-min_val) * 0.5
+buffer = (max_val-min_val)
 ax.set_ylim(min_val-buffer, max_val+buffer)
 
 # Customize the plot
