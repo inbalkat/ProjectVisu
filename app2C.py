@@ -184,7 +184,7 @@ category = st.selectbox("Choose a category:", ["Rent", "Fuel", "Basic Basket"])
 # Assign unique colors for each category
 category_colors = {
     # "Rent": "#4CAF50",   
-    "Rent": "#45D6AF", 
+    "Rent": "#40C7A3", 
     "Fuel": "#FF9800",          
     "Basic Basket": "#FF73D0"   
 }
