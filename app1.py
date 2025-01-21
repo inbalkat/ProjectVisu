@@ -149,7 +149,7 @@ if not filtered_df.empty:
     # Adjust y-axis range
     max_value = total_prices['yearly average price'].max()
     min_value = total_prices['yearly average price'].min()
-    buffer = (max_value - min_value) * 0.5
+    buffer = (max_value - min_value) * 1
     ax.set_ylim(min_value - buffer, max_value + buffer)
     
 else:
