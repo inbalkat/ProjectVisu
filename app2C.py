@@ -165,12 +165,12 @@ def plot_category_stairs_plotly(data, category, color):
             range=[values.min() - buffer, values.max() + buffer]  # Dynamic range
         ),
         hoverlabel=dict(
-            font_size=16
+            font_size=14
         ),
         template="plotly_white",
         legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01),
         width=1600,  # Larger plot width
-        height=500   # Larger plot height
+        height=600   # Larger plot height
     )
 
     return fig
