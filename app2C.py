@@ -154,11 +154,16 @@ def plot_category_stairs_plotly(data, category, color):
     # Customize layout
     fig.update_layout(
         title=f"<b>Interactive Stair Plot: {category} as % of Salary</b>",
-        title_font_size=20,
+        title_font_size=20,  # הגדלת גודל הכותרת
         xaxis=dict(title="Year", tickmode="linear"),
-        yaxis=dict(title="Percentage of Salary (%)",
-                  range=[max(0, values.min() - ((values.max() - values.min()) * 0.3)), values.max() + ((values.max() - values.min()) * 0.3)]),
-        hoverlable=dict(font_size=16),
+        yaxis=dict(
+            title="Percentage of Salary (%)",
+            range=[max(0, values.min() - 5), values.max() + 5]  # הרחבת טווח ציר ה-y
+        ),
+        hoverlabel=dict(
+            font_size=16,  # גודל טקסט גדול יותר בהובר
+            font_family="Arial"
+        ),
         template="plotly_white",
         legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01)
     )
