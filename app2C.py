@@ -183,9 +183,10 @@ category = st.selectbox("Choose a category:", ["Rent", "Fuel", "Basic Basket"])
 
 # Assign unique colors for each category
 category_colors = {
-    "Rent": "#4CAF50",          # Vibrant green
-    "Fuel": "#FF9800",          # Bright orange
-    "Basic Basket": "#FF73D0"   # Deep purple
+    # "Rent": "#4CAF50",   
+    "Rent": "#45D6AF", 
+    "Fuel": "#FF9800",          
+    "Basic Basket": "#FF73D0"   
 }
 
 # Display interactive stairs plot for selected category
