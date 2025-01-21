@@ -58,7 +58,8 @@ def plot_category_stairs(data, category, color):
     max_val = values.max()
     min_val = values.min()
     buffer = (max_val-min_val) * 0.5
-    ax.set_ylim(min_val-buffer, max_val+buffer)
+    # ax.set_ylim(min_val-buffer, max_val+buffer)
+    ax.set_ylim(min_val, max_val)
 
     # Customize plot
     ax.set_title(f"Stair Plot: {category} as % of Salary", fontsize=16)
