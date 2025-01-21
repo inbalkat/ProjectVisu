@@ -50,14 +50,14 @@ def plot_category_stairs(data, category, color):
     values = data[category].values
 
     # Create step plot
-    ax.step(years, values, label=f"{category} as % of Salary", color=color, where='mid', linewidth=2)
+    ax.step(years, values, label=f"{category} as % of Salary", color=color, where='mid', linewidth=3)
 
     # Highlight each step with a scatter plot for clarity
-    ax.scatter(years, values, color=color, edgecolor="black", zorder=5)
+    ax.scatter(years, values, color=color, edgecolor="black", zorder=5, s=50)
 
     max_val = values.max()
     min_val = values.min()
-    buffer = (max_val-min_val) * 0.5
+    buffer = (max_val-min_val) * 0.3
     ax.set_ylim(min_val-buffer, max_val+buffer)
 
     # Customize plot
