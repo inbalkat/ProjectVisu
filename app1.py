@@ -149,6 +149,11 @@ else:
     ax.text(0.5, 0.5, "No items selected", fontsize=14, ha='center', va='center')
     ax.set_xticks([])
 
+max_val = values.max()
+min_val = values.min()
+buffer = (max_val-min_val) * 0.5
+ax.set_ylim(min_val-buffer, max_val+buffer)
+
 # Customize the plot
 ax.set_xlabel("Year")
 ax.set_ylabel("Total Cost (₪)")
