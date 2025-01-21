@@ -43,7 +43,7 @@ def plot_heatmap(merged_df):
         heatmap_data,
         annot=True,
         fmt=".0f",
-        cmap="coolwarm_r",
+        cmap="coolwarm",
         linewidths=0.5,
         linecolor="white",
         cbar_kws={'label': 'Difference (₪)'},
