@@ -143,12 +143,15 @@ if not filtered_df.empty:
         linewidth=2,
         label="Total Basket Cost"
     )
-    max_val = values.max()
-    min_val = values.min()
-    buffer = (max_val-min_val)
-    ax.set_ylim(min_val-buffer, max_val+buffer)
     ax.set_xticks(range(2015, 2025))
     ax.legend()
+    
+    # Adjust y-axis range
+    max_value = total_prices['yearly average price'].max()
+    min_value = total_prices['yearly average price'].min()
+    buffer = (max_value - min_value) * 0.5
+    ax.set_ylim(min_value - buffer, max_value + buffer)
+    
 else:
     ax.text(0.5, 0.5, "No items selected", fontsize=14, ha='center', va='center')
     ax.set_xticks([])
