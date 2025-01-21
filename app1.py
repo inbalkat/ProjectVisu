@@ -260,8 +260,8 @@ if not filtered_df.empty:
         y=total_prices['yearly average price'],
         mode='lines+markers',
         name="Total Basket Cost",
-        line=dict(color="black", width=2),
-        marker=dict(size=10, color="black"),
+        line=dict(color="white", width=2),
+        marker=dict(size=10, color="white"),
         hovertemplate="Year: %{x}<br>Total Cost: ₪%{y}<extra></extra>"  # Custom hover info
     ))
 
