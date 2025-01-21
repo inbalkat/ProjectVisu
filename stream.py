@@ -146,6 +146,12 @@ def app1():
             linewidth=2,
             label="Total Basket Cost"
         )
+        # Adjust y-axis range
+        max_value = total_prices['yearly average price'].max()
+        min_value = total_prices['yearly average price'].min()
+        buffer = (max_value - min_value) * 1.5
+        ax.set_ylim(min_value - buffer, max_value + buffer)
+        
         ax.set_xticks(range(2015, 2025))
         ax.legend()
     else:
