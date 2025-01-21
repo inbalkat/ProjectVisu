@@ -182,11 +182,10 @@ st.title("Interactive Stairs Plot: Categories as % of Salary")
 category = st.selectbox("Choose a category:", ["Rent", "Fuel", "Basic Basket"])
 
 # Assign unique colors for each category
-category_colors = {
-    # "Rent": "#4CAF50",   
+category_colors = { 
     "Rent": "#40C7A3", 
     "Fuel": "#FF9800",          
-    "Basic Basket": "#FF73D0"   
+    "Basic Basket": "#C19AFF"   
 }
 
 # Display interactive stairs plot for selected category
