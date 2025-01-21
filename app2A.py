@@ -71,7 +71,7 @@ def plot_combined_area(data):
     ax.set_xlabel("Year")
     ax.set_ylabel("Percentage of Salary (%)")
     ax.set_xticks(range(2015, 2025))
-    ax.set_ylim(0, 100)
+    ax.set_ylim(0, 80)
     ax.legend(loc="upper left")
     ax.grid(axis="y", linestyle="--", alpha=0.7)
 
