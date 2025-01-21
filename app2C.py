@@ -65,7 +65,7 @@ def plot_category_stairs(data, category, color):
     ax.set_xlabel("Year")
     ax.set_ylabel("Percentage of Salary (%)")
     ax.set_xticks(years)
-    ax.set_yticks(np.linspace(values.min(), values.max(), 5))
+    # ax.set_yticks(np.linspace(values.min(), values.max(), 5))
     ax.legend()
     ax.grid(True)
 
