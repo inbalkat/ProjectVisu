@@ -268,7 +268,7 @@ if not filtered_df.empty:
     # Adjust y-axis range
     max_value = total_prices['yearly average price'].max()
     min_value = total_prices['yearly average price'].min()
-    buffer = (max_value - min_value) * 0.1  # Add a 10% buffer
+    buffer = (max_value - min_value) * 1.5  # Add a 10% buffer
     fig.update_yaxes(range=[min_value - buffer, max_value + buffer])
 
 else:
@@ -285,8 +285,8 @@ fig.update_layout(
     xaxis_title="Year",
     yaxis_title="Total Cost (₪)",
     template="plotly_white",
-    width=1000,
-    height=600
+    width=1600,
+    height=500
 )
 
 # Display the plot in Streamlit
