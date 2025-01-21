@@ -46,7 +46,7 @@ def plot_combined_area(data):
     ax.fill_between(
         data["Year"],
         data["Rent"] * 100,  # Convert to percentage
-        color="lightskyblue",
+        color="green",
         alpha=0.7,
         label="Rent"
     )
