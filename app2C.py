@@ -169,8 +169,8 @@ def plot_category_stairs_plotly(data, category, color):
         ),
         template="plotly_white",
         legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01),
-        width=1600,  # Larger plot width
-        height=600   # Larger plot height
+        width=1600,
+        height=500
     )
 
     return fig
@@ -185,7 +185,7 @@ category = st.selectbox("Choose a category:", ["Rent", "Fuel", "Basic Basket"])
 category_colors = {
     "Rent": "#4CAF50",          # Vibrant green
     "Fuel": "#FF9800",          # Bright orange
-    "Basic Basket": "#673AB7"   # Deep purple
+    "Basic Basket": "#D3B4FF"   # Deep purple
 }
 
 # Display interactive stairs plot for selected category
