@@ -158,7 +158,7 @@ def plot_category_stairs_plotly(data, category, color):
         xaxis=dict(title="Year", tickmode="linear"),
         yaxis=dict(title="Percentage of Salary (%)",
                   range=[max(0, values.min() - ((values.max() - values.min()) * 0.3)), values.max() + ((values.max() - values.min()) * 0.3)]),
-        hoverlable=dict(font_size=16)
+        hoverlable=dict(font_size=16),
         template="plotly_white",
         legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01)
     )
