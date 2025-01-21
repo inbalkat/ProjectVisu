@@ -153,7 +153,7 @@ def plot_category_stairs_plotly(data, category, color):
 
     # Calculate dynamic range
     value_range = values.max() - values.min()
-    buffer = value_range * 0.2  # Add 20% buffer on each side
+    buffer = value_range * 0.5
 
     # Customize layout
     fig.update_layout(
@@ -165,8 +165,7 @@ def plot_category_stairs_plotly(data, category, color):
             range=[values.min() - buffer, values.max() + buffer]  # Dynamic range
         ),
         hoverlabel=dict(
-            font_size=16,
-            font_family="Arial"
+            font_size=16
         ),
         template="plotly_white",
         legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01),
